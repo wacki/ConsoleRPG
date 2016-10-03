@@ -9,8 +9,24 @@ namespace ConsoleRPG {
     // User can dynamically add new messages to a dictionary with a unique name
     // And can later decide to output a random message from one of these keys.
     class MessageManager {
+        static MessageManager m_soInstance = null;
+        public static MessageManager instance { get { return m_soInstance; } }
+        
         // Dictionary containing our messages
         private Dictionary<string, List<string>> _messages = new Dictionary<string, List<string>>();
+
+        public static void Init()
+        {
+            if(instance != null) {
+                throw new Exception("ERROR: trying to instantiate multiple message manager instances");
+            }
+
+            m_soInstance = new MessageManager();
+        }
+
+        // private constructor, preventing instantiation outside of this class
+        private MessageManager()
+        { }
 
         // Function actually adding a new message to the dictionary
         public void AddMsg(string key, string msg)
