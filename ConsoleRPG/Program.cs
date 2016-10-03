@@ -8,6 +8,8 @@ namespace ConsoleRPG {
     class Program {
         static void Main(string[] args)
         {
+            Game oGame = new Game();
+            oGame.Run();
         }
     }
 }
