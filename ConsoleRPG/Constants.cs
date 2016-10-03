@@ -12,8 +12,7 @@ namespace ConsoleRPG {
         public static readonly ConsoleColor eMapPlayerColor = ConsoleColor.Red;
         public static readonly ConsoleColor eMapBackgroundColor = ConsoleColor.Black;
         public static readonly string eMapTileSymbol = "█";
-        public static readonly string eMapPlayerSymbol = "0";
-
+        public static readonly string eMapPlayerSymbol = "+";
     }
 
     enum Directions {

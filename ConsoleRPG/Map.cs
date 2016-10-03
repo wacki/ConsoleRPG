@@ -45,6 +45,13 @@ namespace ConsoleRPG {
             Util.ConsoleWriteCol(color, Constants.eMapBackgroundColor, Constants.eMapTileSymbol);
         }
 
+        public void PrintLookMessage()
+        {
+            MessageManager.instance.PrintRandomMsg("map_look_safe");
+
+            // todo:    for now this just prints the safe message. However should this
+            //          tile contain a monster or a treasure this message should reflect that.
+        }
     }
 
 
@@ -96,7 +103,12 @@ namespace ConsoleRPG {
             }
         }
 
-        private MapTile GetTileAt(int x, int y)
+
+        public MapTile GetTileAt(Vector2i pos) {
+            return GetTileAt(pos.x, pos.y);
+        }
+
+        public MapTile GetTileAt(int x, int y)
         {
             if(x < 0 || m_rgTiles.GetLength(1) <= x ||
                y < 0 || m_rgTiles.GetLength(0) <= y)

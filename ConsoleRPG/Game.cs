@@ -26,9 +26,7 @@ namespace ConsoleRPG {
                 int playerX = m_oCharacter.coordinates.x;
                 int playerY = m_oCharacter.coordinates.y;
                 m_oMap.Print(playerX, playerY);
-
-
-
+                
                 // 2. handle user input?
                 HandleUserInput();
                 
@@ -37,8 +35,8 @@ namespace ConsoleRPG {
         
         public void Stop(bool prompt = false)
         {
-            if(prompt) {
-                Console.WriteLine("Are you sure you want to quit the game? (yes, no)");
+            if(prompt) {                
+                MessageManager.instance.PrintRandomMsg("quit_game_prompt");
                 if(!Util.YesNoPrompt())
                     return;
             }
@@ -64,8 +62,9 @@ namespace ConsoleRPG {
                 
                 return false;
             
-            }, "That is not a valid instruction!");
-            
+            }, MessageManager.instance.GetRandomMsg("user_command_invalid"));
+
+
         }
 
         #region user commands
@@ -76,6 +75,10 @@ namespace ConsoleRPG {
         private void Look()
         {
             // todo
+            var dir = SelectDirection();
+            var tile = GetTileInDir(dir);
+
+            tile.PrintLookMessage();
         }
 
         /// <summary>
@@ -83,6 +86,10 @@ namespace ConsoleRPG {
         /// </summary>
         private void Move()
         {
+            // Prompt user for direction
+            var dir = SelectDirection();
+            
+
             // todo
         }
 
@@ -117,8 +124,39 @@ namespace ConsoleRPG {
 
         #endregion
 
+        // directions prompt
+        private Directions SelectDirection()
+        {
+            Console.WriteLine(MessageManager.instance.GetRandomMsg("choose_direction_prompt") + "\n");
 
+            for(int i = 0; i < 4; i++)
+                Console.Write("({0}) {1}", i, (Directions)i);
 
+            return (Directions)Util.GetIntegerInput(0, 3);
+        }
+
+        /// <summary>
+        /// Get the map tile that lies in the given direction
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <returns></returns>
+        private MapTile GetTileInDir(Directions dir)
+        {
+            var newPosition = m_oCharacter.coordinates + GetDirectionVector(dir);
+            return m_oMap.GetTileAt(newPosition);
+        }
+
+        private Vector2i GetDirectionVector(Directions dir)
+        {
+            switch(dir) {
+                case Directions.North: return new Vector2i(0, 1);
+                case Directions.East: return new Vector2i(1, 0);
+                case Directions.South: return new Vector2i(0, -1);
+                case Directions.West: return new Vector2i(-1, 0);
+                default: return new Vector2i(0, 0);
+            }
+
+        }
 
 
 

@@ -133,6 +133,11 @@ namespace ConsoleRPG {
         public int x;
         public int y;
 
+        public static Vector2i operator+(Vector2i v1, Vector2i v2)
+        {
+            return new Vector2i(v1.x + v2.x, v1.y + v2.y);
+        }
+
         public Vector2i(int x, int y)
         {
             this.x = x;
