@@ -4,9 +4,16 @@ namespace ConsoleRPG {
     class Game {
 
         private bool m_bRunning;
+        private Map m_oMap;
+        private Character m_oCharacter;
+
 
         public Game()
         {
+            m_oMap = new Map(Constants.iMapSizeX, Constants.iMapSizeY);
+
+            // set up character
+            m_oCharacter = new Character();
         }
         
         public void Run()
@@ -16,6 +23,11 @@ namespace ConsoleRPG {
                 Console.Clear();
 
                 // 1. display map
+                int playerX = m_oCharacter.coordinates.x;
+                int playerY = m_oCharacter.coordinates.y;
+                m_oMap.Print(playerX, playerY);
+
+
 
                 // 2. handle user input?
                 HandleUserInput();
@@ -43,7 +55,11 @@ namespace ConsoleRPG {
 
                 // temp input handling. This needs to be improved
                 switch(input.ToLower()) {
-                    case "q": Stop(true); return true;
+                    case "quit": Stop(true); return true;
+                    case "look": Look(); return true;
+                    case "move": Move(); return true;
+                    case "equip": Equip(); return true;
+                    case "use": Use(); return true;
                 }
                 
                 return false;
@@ -51,5 +67,60 @@ namespace ConsoleRPG {
             }, "That is not a valid instruction!");
             
         }
+
+        #region user commands
+
+        /// <summary>
+        /// Called when player uses the look command
+        /// </summary>
+        private void Look()
+        {
+            // todo
+        }
+
+        /// <summary>
+        /// Called when player uses the move command
+        /// </summary>
+        private void Move()
+        {
+            // todo
+        }
+
+        /// <summary>
+        /// Called when player uses the equip command
+        /// </summary>
+        /// <param name="dir"></param>
+        private void Equip()
+        {
+            // todo
+        }
+
+        /// <summary>
+        /// Called when player uses the use command
+        /// </summary>
+        /// <param name="dir"></param>
+        private void Use()
+        {
+            // todo
+        }
+
+
+
+        /// <summary>
+        /// Called when player enteres a combat situation.
+        /// </summary>
+        private void Combat()
+        {
+
+        }
+
+
+        #endregion
+
+
+
+
+
+
     }
 }

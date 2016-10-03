@@ -5,9 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ConsoleRPG {
+
+    /* Todo:
+     *   1. Check variables for correct hungarian notation. Ugh...
+     * 
+     */
+
+
+
     class Program {
         static void Main(string[] args)
         {
+
             // Init message manager singleton
             MessageManager.Init();
 

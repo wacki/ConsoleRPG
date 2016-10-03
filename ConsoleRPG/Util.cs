@@ -106,7 +106,38 @@ namespace ConsoleRPG {
             return result;
         }
 
+
+
+        public static void ConsoleWriteCol(ConsoleColor fgColor, string text)
+        {
+            ConsoleWriteCol(fgColor, ConsoleColor.Black, text);
+        }
+        public static void ConsoleWriteCol(ConsoleColor fgColor, ConsoleColor bgColor, string text)
+        {
+            ConsoleColor fgColorOrig = Console.ForegroundColor;
+            ConsoleColor bgColorOrig = Console.BackgroundColor;
+
+            Console.ForegroundColor = fgColor;
+            Console.BackgroundColor = bgColor;
+
+            Console.Write(text);
+
+            Console.ForegroundColor = fgColorOrig;
+            Console.BackgroundColor = bgColorOrig;
+        }
+
     }
 
+
+    class Vector2i {
+        public int x;
+        public int y;
+
+        public Vector2i(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+    }
 
 }
