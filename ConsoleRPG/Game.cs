@@ -29,7 +29,7 @@ namespace ConsoleRPG {
                 
                 // 2. handle user input?
                 HandleUserInput();
-                
+                Console.ReadLine();
             }
         }
         
