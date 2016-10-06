@@ -45,12 +45,47 @@ namespace ConsoleRPG {
             Util.ConsoleWriteCol(color, Constants.eMapBackgroundColor, Constants.eMapTileSymbol);
         }
 
-        public void PrintLookMessage()
+        public string  GetLookMessage()
         {
-            MessageManager.instance.PrintRandomMsg("map_look_safe");
+            return MessageManager.instance.GetRandomMsg("map_look_safe");
 
             // todo:    for now this just prints the safe message. However should this
             //          tile contain a monster or a treasure this message should reflect that.
+            //          also, don't forget about tile types here!
+        }
+
+        public string GetMoveMessage()
+        {
+
+            switch(m_eType) {
+                case Type.Plains:
+                    return MessageManager.instance.GetRandomMsg("map_move_plain_safe");
+                case Type.Mountains:
+                    return MessageManager.instance.GetRandomMsg("map_move_mountain_safe");
+                case Type.Water:
+                    return MessageManager.instance.GetRandomMsg("map_move_message_safe");
+                case Type.Wood:
+                default:
+                    return MessageManager.instance.GetRandomMsg("map_move_forest_safe");
+            }
+        }
+
+        // returns a monster CLASS to be used in combat
+        // this is currently just a placeholder.
+        public string GetMonster()
+        {
+            return "IMPLEMENT_MONSTER_TYPES";
+        }
+
+        // returns a treasure class to be looted by the character
+        public string GetTreasure()
+        {
+            return "IMPLEMENT_TREASURE_TYPES";
+        }
+
+        public MapTileEvent GetEventType()
+        {
+            return MapTileEvent.Nothing;
         }
     }
 
@@ -74,7 +109,7 @@ namespace ConsoleRPG {
         private MapTile[,] m_rgTiles;
         private int m_iSizeX;
         private int m_iSizeY;
-
+        
         public Map(int sizeX, int sizeY)
         {
             m_rgTiles = new MapTile[sizeY, sizeX];
