@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace ConsoleRPG
 {
-    
-    class Combat
+
+    static class CombatManager
     {
         //adds a random number for use across the program
         static Random rRandomNumber = new Random();
         //When a object (ie Player or Monster) attack another object
-        private void attack()
+        private static void attack()
         {
             MessageManager.instance.PrintRandomMsg("attack_creature");
             int iPlayerRoll = roll();
@@ -23,7 +23,7 @@ namespace ConsoleRPG
             damage(iPlayerRoll, iMonsterRoll);
         }
         //determans then damges the loser of the fight
-        private void damage(int iPlayerDamage, int iMonsterDamage)
+        private static void damage(int iPlayerDamage, int iMonsterDamage)
         {
             int i_totalDamage = iPlayerDamage - iMonsterDamage;
             if(i_totalDamage > 0)
@@ -44,12 +44,12 @@ namespace ConsoleRPG
         }
 
         //If the monster is killed will it drop loot?
-        private void dropLoot()
+        private static void dropLoot()
         {
             //to do
         }
         //the roll for the attack
-        private int roll()
+        private static int roll()
         {
             int iRanNumber;
             iRanNumber = rRandomNumber.Next(1, 7);
@@ -57,14 +57,14 @@ namespace ConsoleRPG
             return iRanNumber;
         }
         //check if anyone has died
-        private bool lifeCheck(bool bIsMonster)
+        private static bool lifeCheck(bool bIsMonster)
         {
             return true;
         }
         
 
         //the player wants to run away
-        private void run()
+        private static void run()
         {
             Console.WriteLine("You try and run away");
             int iPlayerDamage = roll();
@@ -88,30 +88,31 @@ namespace ConsoleRPG
 
         }
         //when the fight occurs
-        public void fight()
+        public static string fight(Character character, MapTile tile)
         {
-            // Console.WriteLine("You have encountered {0}", Monsters.name);
+            Monster monster = tile.GetMonster();
+
+            Console.WriteLine("You have encountered {0}", monster.name);
             //("What would you like to do?")
-           string action = Console.ReadLine();
-            switch (action)
-            {
-                case "1":
-                    {
-                        attack();
-                        break;
-                    }
-                case "2":
-                    {
-                        run();
-                        break;
-                    }
-                default:
-                    {
-                        Console.WriteLine("Cdsfjsajfkljda");
-                        fight();
-                        break;
-                    }
-            }
+            Util.GetInput((string input, out string output) => {
+                output = input;
+
+                // temp input handling. This needs to be improved
+                switch(input.ToLower()) {
+                    case "1": attack(); return true;
+                    case "2": run(); return true;
+                }
+
+                return false;
+
+            }, MessageManager.instance.GetRandomMsg("user_command_invalid"));
+
+            // if we win and monster is dead do this
+            tile.eTileEvent = MapTileEvent.Nothing;
+            // else dont change it.
+
+
+            return "combat is over and we need to add a message here FOR FUCKS SACKE";
         }
     }
 }

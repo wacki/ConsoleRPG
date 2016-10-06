@@ -20,7 +20,7 @@ namespace ConsoleRPG {
 
 
         private Type m_eType;
-        private MapTileEvent m_eTileEvent;
+        public MapTileEvent eTileEvent;
 
         public ConsoleColor color
         {
@@ -41,7 +41,7 @@ namespace ConsoleRPG {
         public MapTile(Type type, MapTileEvent tileEvent)
         {
             m_eType = type;
-            m_eTileEvent = tileEvent;
+            eTileEvent = tileEvent;
         }
 
         public void Print()
@@ -54,7 +54,7 @@ namespace ConsoleRPG {
             string areaString = "";
             string eventTypeString = "";
 
-            switch(m_eTileEvent) {
+            switch(eTileEvent) {
                 case MapTileEvent.Nothing: eventTypeString = "safe"; break;
                 case MapTileEvent.Combat: eventTypeString = "combat"; break;
                 case MapTileEvent.Treasure: eventTypeString = "treasure"; break;
@@ -76,7 +76,7 @@ namespace ConsoleRPG {
             string areaString = "";
             string eventTypeString = "";
             
-            switch(m_eTileEvent) {
+            switch(eTileEvent) {
                 case MapTileEvent.Nothing: eventTypeString = "safe"; break;
                 case MapTileEvent.Combat: eventTypeString = "combat"; break;
                 case MapTileEvent.Treasure: eventTypeString = "treasure"; break;
@@ -95,11 +95,11 @@ namespace ConsoleRPG {
 
         // returns a monster CLASS to be used in combat
         // this is currently just a placeholder.
-        public Monsters GetMonster()
+        public Monster GetMonster()
         {
             // todo: spawn monster based on tile type
-            if(m_eTileEvent == MapTileEvent.Combat)
-                return new Monsters();
+            if(eTileEvent == MapTileEvent.Combat)
+                return new Monster(m_eType);
 
             return null;
         }
@@ -108,7 +108,7 @@ namespace ConsoleRPG {
         public string GetTreasure()
         {
             // todo: spawn monster based on tile type
-            if(m_eTileEvent == MapTileEvent.Combat)
+            if(eTileEvent == MapTileEvent.Combat)
                 return "TREASURE_TODO";
 
             return "NO TREASURE TODO";
@@ -116,7 +116,7 @@ namespace ConsoleRPG {
 
         public MapTileEvent GetEventType()
         {
-            return m_eTileEvent;
+            return eTileEvent;
         }
     }
 
@@ -166,14 +166,16 @@ namespace ConsoleRPG {
                     else if (randInt < 600) // 30% chance of tile being a forest
                         type = MapTile.Type.Wood;
 
+
+
                     randInt = rand.Next(0, 1000);
                     MapTileEvent tileEvent = MapTileEvent.Nothing;
-                    if(randInt < 100) // 10% chance of monster
+                    if(randInt < 900) // 10% chance of monster
                         tileEvent = MapTileEvent.Combat;
-                    else if(randInt < 200) // 10% chance of random loot
-                        tileEvent = MapTileEvent.Treasure;                   
+                    else if(randInt < 950) // 10% chance of random loot
+                        tileEvent = MapTileEvent.Treasure;
 
-
+                    tileEvent = MapTileEvent.Combat;
 
                     m_rgTiles[y, x] = new MapTile(type, tileEvent);
                 }

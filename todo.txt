@@ -1,0 +1,10 @@
+Marc:
+	Status function
+	Usable items
+	use function
+	Winstat check
+	implement game restart
+
+Greg
+	finish combat
+	monster balancing

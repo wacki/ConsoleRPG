@@ -8,16 +8,12 @@ namespace ConsoleRPG
 {
     class Item
     {
-        protected string name = "Item Name";
-        
+        protected string name = "Item Name";        
         protected bool equipableornonequipable = true;
-
         protected float healthbonus = 0f;
-
         protected float baseattackbonus = 0f;
-
-
     }
+
     class HealthPotion: Item
     {
         public HealthPotion()
@@ -28,6 +24,7 @@ namespace ConsoleRPG
             baseattackbonus = 0;
         }
     }
+
     class StrenghtPotion : Item
     {
         public StrenghtPotion()
@@ -38,6 +35,7 @@ namespace ConsoleRPG
             baseattackbonus = 3;
         }
     }
+
     class Sword : Item
     {
         public Sword()
@@ -48,6 +46,7 @@ namespace ConsoleRPG
             baseattackbonus = 1;
         }
     }
+
     class Axe : Item
     {
         public Axe()

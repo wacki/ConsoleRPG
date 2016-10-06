@@ -4,20 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleRPG
-{
-    public class Monsters
-    {
+namespace ConsoleRPG {
+    public class Monster {
 
         //Define variables for the defining what the monsters are
         string m_sName;
+        public string name { get { return m_sName; } }
         int m_iHealth;
-        int m_iAttackBase;
+        public int health
+        {
+            get { return m_iHealth; }
+            set { m_iHealth = value; }
+        }
+        int m_iBaseAttack;
+        public int baseAttack { get { return m_iBaseAttack; } }
+
+
         int m_iMonsterSelector;
         int m_iSpecialMonster;
 
         //Create a construct that picks a random number that fits into the following string array
-        public Monsters(MapTile.Type tileType)
+        public Monster(MapTile.Type tileType)
         {
             //Define random number generators for picking monsters
 
@@ -29,34 +36,29 @@ namespace ConsoleRPG
 
 
             //Outlining the possibilities for monsters based on tile location
-            switch (tileType)
-            {
-                case MapTile.Type.Mountains:                    
-                    
+            switch(tileType) {
+                case MapTile.Type.Mountains:
+
                     //Spawning special monster
-                    if (m_iSpecialMonster < 3)
-                    {
+                    if(m_iSpecialMonster < 3) {
                         m_iMonsterSelector = 6;
                     }
 
                     //Spawning standard monster
-                    else
-                    {
+                    else {
                         m_iMonsterSelector = RandomMonster.Next(0, 3);
                     }
-                    
+
                     break;
 
                 case MapTile.Type.Plains:
 
                     //Spawning special monster
-                    if (m_iSpecialMonster < 3)
-                    {
+                    if(m_iSpecialMonster < 3) {
                         m_iMonsterSelector = 7;
                     }
                     //Spawning standard monster
-                    else
-                    {
+                    else {
                         m_iMonsterSelector = RandomMonster.Next(0, 3);
                     }
 
@@ -65,13 +67,11 @@ namespace ConsoleRPG
                 case MapTile.Type.Desert:
 
                     //Spawning special monster
-                    if (m_iSpecialMonster < 3)
-                    {
+                    if(m_iSpecialMonster < 3) {
                         m_iMonsterSelector = 4;
                     }
                     //Spawning standard monster
-                    else
-                    {
+                    else {
                         m_iMonsterSelector = RandomMonster.Next(0, 3);
                     }
 
@@ -80,13 +80,11 @@ namespace ConsoleRPG
                 case MapTile.Type.Wood:
 
                     //Spawning special monster
-                    if (m_iSpecialMonster < 3)
-                    {
+                    if(m_iSpecialMonster < 3) {
                         m_iMonsterSelector = 3;
                     }
                     //Spawning standard monster
-                    else
-                    {
+                    else {
                         m_iMonsterSelector = RandomMonster.Next(0, 3);
                     }
 
@@ -95,22 +93,19 @@ namespace ConsoleRPG
                 case MapTile.Type.Water:
 
                     //Spawning special monster
-                    if (m_iSpecialMonster < 3)
-                    {
+                    if(m_iSpecialMonster < 3) {
                         m_iMonsterSelector = 5;
                     }
                     //Spawning standard monster
-                    else
-                    {
+                    else {
                         m_iMonsterSelector = RandomMonster.Next(0, 3);
                     }
 
                     break;
-            }                      
+            }
 
             //Use the random selection from the above array to deliver monster stats
-            switch (m_iMonsterSelector)
-            {
+            switch(m_iMonsterSelector) {
                 /* Monster types
                  * 3 Standard:
                  * Goblin: Health: 4, Attack: 1
@@ -129,81 +124,73 @@ namespace ConsoleRPG
                  */
 
                 //Goblin 
-                case 0:
-                    {
+                case 0: {
                         m_sName = "Goblin";
                         m_iHealth = 4;
-                        m_iAttackBase = 1;
+                        m_iBaseAttack = 1;
 
                         break;
                     }
 
                 //Orc
-                case 1:
-                    {
+                case 1: {
                         m_sName = "Orc";
                         m_iHealth = 8;
-                        m_iAttackBase = 4;
+                        m_iBaseAttack = 4;
 
                         break;
                     }
 
                 //Wolf
-                case 2:
-                    {
+                case 2: {
                         m_sName = "Wolf";
                         m_iHealth = 6;
-                        m_iAttackBase = 3;
+                        m_iBaseAttack = 3;
 
                         break;
                     }
 
                 //Giant Spider
-                case 3:
-                    {
+                case 3: {
                         m_sName = "Giant Spider";
                         m_iHealth = 12;
-                        m_iAttackBase = 4;
+                        m_iBaseAttack = 4;
 
                         break;
                     }
 
                 //Lizardfolk
-                case 4:
-                    {
+                case 4: {
                         m_sName = "Lizardfolk";
                         m_iHealth = 10;
-                        m_iAttackBase = 5;
+                        m_iBaseAttack = 5;
 
                         break;
                     }
 
                 //Alligator
-                case 5:
-                    {
+                case 5: {
                         m_sName = "Alligator";
                         m_iHealth = 14;
-                        m_iAttackBase = 2;
+                        m_iBaseAttack = 2;
 
                         break;
                     }
 
                 //Wyvern
-                case 6:
-                    {
+                case 6: {
                         m_sName = "Wyvern";
                         m_iHealth = 16;
-                        m_iAttackBase = 6;
+                        m_iBaseAttack = 6;
 
                         break;
                     }
 
                 //Centaur
-                case 7:
-                    {
+                case 7: {
                         m_sName = "Centaur";
                         m_iHealth = 10;
-                        m_iAttackBase = 4;
+                        m_iBaseAttack = 4;
 
                         break;
                     }

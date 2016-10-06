@@ -32,9 +32,6 @@ namespace ConsoleRPG {
             MessageManager.instance.AddMsg("attack_creature", "You lunge at the creature");
             MessageManager.instance.AddMsg("attack_creature", "You slash at the creature");
             //Monster attack
-            MessageManager.instance.AddMsg("attack_creature", "The creature swing at you");
-            MessageManager.instance.AddMsg("attack_creature", "The creature at you");
-            MessageManager.instance.AddMsg("attack_creature", "The creature at you");
             MessageManager.instance.AddMsg("attack_creature", "The creature took a swing at you");
             MessageManager.instance.AddMsg("attack_creature", "The creature dashed at you");
             MessageManager.instance.AddMsg("attack_creature", "The creature lunged at you");
@@ -49,10 +46,7 @@ namespace ConsoleRPG {
             MessageManager.instance.AddMsg("player_attack_sucsess", "Your attack hit deep");
             MessageManager.instance.AddMsg("player_attack_sucsess", "Your attack grased it");
             MessageManager.instance.AddMsg("player_attack_sucsess", "It took your attact to the face!");
-            MessageManager.instance.AddMsg("attack_creature", "The creature swings at you"); //Find a way to implement the monster name here?
-            MessageManager.instance.AddMsg("attack_creature", "The creature leaps at you");
-            MessageManager.instance.AddMsg("attack_creature", "The creature strikes at you");
-            MessageManager.instance.AddMsg("attack_creature", "The creature at you");
+
             // choose a direction prompt
             MessageManager.instance.AddMsg("choose_direction_prompt", "Choose a direction!");
 

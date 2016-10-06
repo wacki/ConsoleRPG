@@ -8,10 +8,25 @@ namespace ConsoleRPG {
     class Character {
         private Vector2i m_oCoordinates; 
         public Vector2i coordinates { get { return m_oCoordinates; } }
-
-        private float m_fHealth;
-        private float m_fBaseAttack;
-        private float m_fGold;
+        
+        int m_iHealth = Constants.iPlayerStartHealth;
+        public int health
+        {
+            get { return m_iHealth; }
+            set { m_iHealth = value; }
+        }
+        private int m_fBaseAttack = 1;
+        public int baseAttack
+        {
+            get { return m_fBaseAttack; }
+            set { m_fBaseAttack = value; }
+        }
+        private int m_fGold;
+        public int gold
+        {
+            get { return m_fBaseAttack; }
+            set { m_fBaseAttack = value; }
+        }
 
         // private Inventory m_oInventory;
         // private EquippableItem m_oEquippedItem;
@@ -27,10 +42,6 @@ namespace ConsoleRPG {
         public void Move(Vector2i dir)
         {
             m_oCoordinates += dir;
-        }
-        public float getHealth()
-        {
-            return m_fHealth;
         }
 
     }

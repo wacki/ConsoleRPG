@@ -63,7 +63,7 @@ namespace ConsoleRPG {
                     case "quit": Stop(true); return true;
                     case "look": Look(); return true;
                     case "move": Move(); return true;
-                    case "equip": Equip(); return true;
+                    case "status": /*print out current health and max health and gold amount*/ return true; 
                     case "use": Use(); return true;
                 }
 
@@ -109,14 +109,14 @@ namespace ConsoleRPG {
 
             if(tile != null) {
                 m_oCharacter.Move(dirVec);
+                
+                m_sFeedbackMsg = tile.GetMoveMessage();
 
                 switch(tile.GetEventType()) {
                     case MapTileEvent.Nothing: break;
                     case MapTileEvent.Combat: Combat(tile); break;
                     case MapTileEvent.Treasure: break;
                 }
-
-                m_sFeedbackMsg = tile.GetMoveMessage();
             }
             else
                 m_sFeedbackMsg = MessageManager.instance.GetRandomMsg("move_inacessible_area");
@@ -149,7 +149,10 @@ namespace ConsoleRPG {
         /// </summary>
         private void Combat(MapTile tile)
         {
-            m_sFeedbackMsg = "Combat started with monster: " + tile.GetMonster();
+            m_sFeedbackMsg = CombatManager.fight(m_oCharacter, tile);
+
+            DeathCheck();
+            //WinCheck();
         }
 
         /// <summary>
@@ -163,6 +166,30 @@ namespace ConsoleRPG {
         }
 
         #endregion
+
+        private void DeathCheck()
+        {
+            if(m_oCharacter.health <= 0) {
+                Console.WriteLine("You just died you idiot CHANGE THIS MESSAGE");
+                bool restart = Util.YesNoPrompt();
+
+                if(!restart)
+                    Stop(false);
+                // else restart TODO marc
+                    
+            }
+        }
+
+        private void WinCheck()
+        {
+            if(m_oCharacter.gold >= Constants.iGoldAmountToWin) {
+                Console.WriteLine("You win the game. Wanna play again?");
+                bool restart = Util.YesNoPrompt();
+
+                if(!restart)
+                    Stop(false);
+            }
+        }
 
         // directions prompt
         private Direction SelectDirection()

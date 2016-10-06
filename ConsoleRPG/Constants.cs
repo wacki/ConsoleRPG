@@ -13,6 +13,11 @@ namespace ConsoleRPG {
         public static readonly ConsoleColor eMapBackgroundColor = ConsoleColor.Black;
         public static readonly string eMapTileSymbol = "█";
         public static readonly string eMapPlayerSymbol = "+";
+
+
+        public static readonly int iGoldAmountToWin = 1000;
+        public static readonly int iPlayerStartHealth = 30;
+        
     }
 
     public enum Direction {
