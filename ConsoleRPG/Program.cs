@@ -88,6 +88,22 @@ namespace ConsoleRPG {
             // start message
             MessageManager.instance.AddMsg("start_game_msg", "You wake up in an unknown location.");
 
+            // item messages
+            MessageManager.instance.AddMsg("item_pickup", "Congratulation !!! You just picked {0} item");
+            MessageManager.instance.AddMsg("item_pickup", "Destiny has given you this {0} item");
+            MessageManager.instance.AddMsg("item_pickup", "Use this {0} item wisely as this can be your biggest reward");
+            MessageManager.instance.AddMsg("item_pickup", "Luck has showered its {0} item upon you who is the choosen one");
+            MessageManager.instance.AddMsg("item_pickup", "This {0} item can surely help you through your tough journey");
+
+            MessageManager.instance.AddMsg("item_use", "Enhance your capability by using this legendary {0} item");
+            MessageManager.instance.AddMsg("item_use", "Have no regrets after using this {0} item");
+            MessageManager.instance.AddMsg("item_use", "If you just use then later you might loose, but if you wisely use then enemies might loose");
+
+
+            MessageManager.instance.AddMsg("item_equip", "You just equipped the legendary {0} item");
+            MessageManager.instance.AddMsg("item_use", "God answered your prayers and thus has given you this {0} item to equip");
+            MessageManager.instance.AddMsg("item_use", "Hard Work always pays & your {0} item always stays");
+
             // Instantiate and run the game
             Game oGame = new Game();
             oGame.Run();
