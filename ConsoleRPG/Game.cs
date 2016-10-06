@@ -118,7 +118,12 @@ namespace ConsoleRPG {
         /// </summary>
         private void Combat()
         {
+            //Notify the user they have entered combat
+            Console.WriteLine("Entering Combat");
 
+            //
+            Console.WriteLine("What action do you want to take");
+            m_oCharacter.
         }
 
 

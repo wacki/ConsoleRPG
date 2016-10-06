@@ -6,30 +6,51 @@ using System.Threading.Tasks;
 
 namespace ConsoleRPG
 {
+    
     class Combat
     {
-        public void attack()
+        //adds a random number for use across the program
+        static Random rRandomNumber = new Random();
+        //When a object (ie Player or Monster) attack another object
+        private void attack()
+        {
+            MessageManager.instance.PrintRandomMsg("attack_creature");
+            int iPlayerRoll = roll();
+            MessageManager.instance.PrintRandomMsg("creature_attack");
+            int iMonsterRoll = roll();
+        }
+        //damges the loser of the fight
+        private void damage()
         {
 
         }
 
-        public void damage()
+        //If the monster is killed will it drop loot?
+        private void dropLoot()
         {
 
         }
-        public void dropLoot()
+        //the roll for the attack
+        private int roll()
         {
+            int iRanNumber;
+            iRanNumber = rRandomNumber.Next(1, 7);
 
+            return iRanNumber;
         }
-        private void roll()
-        {
-
-        }
+        //check if anyone has died
         private void lifeCheck()
         {
 
         }
-        public void runn()
+
+        //the player wants to run away
+        private void run()
+        {
+
+        }
+        //when the fight occurs
+        public void fight()
         {
 
         }

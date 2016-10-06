@@ -12,10 +12,12 @@ namespace ConsoleRPG {
      */
 
 
-
     class Program {
+        
         static void Main(string[] args)
         {
+
+            
 
             // Init message manager singleton
             MessageManager.Init();
@@ -24,6 +26,18 @@ namespace ConsoleRPG {
             MessageManager.instance.AddMsg("test", "this is a test message.");
             MessageManager.instance.PrintRandomMsg("test");
 
+            //setup attack messages
+            //Player attack
+            MessageManager.instance.AddMsg("attack_creature","You swing at the creature");
+            MessageManager.instance.AddMsg("attack_creature", "You dash at the creature");
+            MessageManager.instance.AddMsg("attack_creature", "You lunge at the creature");
+            MessageManager.instance.AddMsg("attack_creature", "You slash at the creature");
+            //Monster attack
+            MessageManager.instance.AddMsg("attack_creature", "The creature swing at you");
+            MessageManager.instance.AddMsg("attack_creature", "The creature at you");
+            MessageManager.instance.AddMsg("attack_creature", "The creature at you");
+            MessageManager.instance.AddMsg("attack_creature", "The creature at you");
+            MessageManager.instance.AddMsg("creature_attack", "The creature at you");
             // choose a direction prompt
             MessageManager.instance.AddMsg("choose_direction_prompt", "Choose a direction!");
 

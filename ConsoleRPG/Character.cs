@@ -24,6 +24,10 @@ namespace ConsoleRPG {
             m_oCoordinates = new Vector2i(Constants.iMapSizeX / 2, Constants.iMapSizeY / 2);
         }
 
+        public float getHealth()
+        {
+            return m_fHealth;
+        }
 
     }
 }
