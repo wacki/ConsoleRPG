@@ -156,9 +156,8 @@ namespace ConsoleRPG {
         private void Treasure(MapTile tile)
         {
             m_sFeedbackMsg = "You just found treasure! (NOT IMPLEMENTED YET)";
-            //
-            Console.WriteLine("What action do you want to take");
-            m_oCharacter.
+            
+            
         }
         
         #endregion
