@@ -9,12 +9,13 @@ namespace ConsoleRPG {
     /// <summary>
     /// Holds information about a specific map tile
     /// </summary>
-    class MapTile {
+    public class MapTile {
         public enum Type {
             Plains,
             Water,
             Wood,
-            Mountains
+            Mountains,
+            Desert
         };
 
 
@@ -30,6 +31,7 @@ namespace ConsoleRPG {
                     case Type.Water: return ConsoleColor.Blue;
                     case Type.Wood: return ConsoleColor.DarkGreen;
                     case Type.Mountains: return ConsoleColor.Gray;
+                    case Type.Desert: return ConsoleColor.Yellow;
                     default: return ConsoleColor.White;
                 }
             }
@@ -159,7 +161,9 @@ namespace ConsoleRPG {
                         type = MapTile.Type.Water;
                     else if(randInt < 200) // 20% chance of tile being mountains
                         type = MapTile.Type.Mountains;
-                    else if(randInt < 500) // 30% chance of tile being a forest
+                    else if (randInt < 300) // 10% chance of tile being a forest
+                        type = MapTile.Type.Desert;
+                    else if (randInt < 600) // 30% chance of tile being a forest
                         type = MapTile.Type.Wood;
 
                     randInt = rand.Next(0, 1000);
