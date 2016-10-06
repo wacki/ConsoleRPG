@@ -18,11 +18,14 @@ namespace ConsoleRPG
             int iPlayerRoll = roll();
             MessageManager.instance.PrintRandomMsg("creature_attack");
             int iMonsterRoll = roll();
+            //iPlayerRoll += Character.getAttack;
+            //iMonsterRoll += Monster.getAttack;
+            damage(iPlayerRoll, iMonsterRoll);
         }
         //damges the loser of the fight
-        private void damage()
+        private void damage(int iPlayerDamage, int iMonsterDamage)
         {
-
+           
         }
 
         //If the monster is killed will it drop loot?
