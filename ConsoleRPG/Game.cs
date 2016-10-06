@@ -17,7 +17,7 @@ namespace ConsoleRPG {
             // set up character
             m_oCharacter = new Character();
         }
-        
+
         public void Run()
         {
             m_sFeedbackMsg = MessageManager.instance.GetRandomMsg("start_game_msg");
@@ -39,10 +39,10 @@ namespace ConsoleRPG {
                 HandleUserInput();
             }
         }
-        
+
         public void Stop(bool prompt = false)
         {
-            if(prompt) {                
+            if(prompt) {
                 MessageManager.instance.PrintRandomMsg("quit_game_prompt");
                 if(!Util.YesNoPrompt())
                     return;
@@ -50,7 +50,7 @@ namespace ConsoleRPG {
 
             m_bRunning = false;
         }
-        
+
         private void HandleUserInput()
         {
             Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -66,9 +66,9 @@ namespace ConsoleRPG {
                     case "equip": Equip(); return true;
                     case "use": Use(); return true;
                 }
-                
+
                 return false;
-            
+
             }, MessageManager.instance.GetRandomMsg("user_command_invalid"));
 
 
@@ -78,7 +78,7 @@ namespace ConsoleRPG {
 
         private void PrintInputOptions()
         {
-            Console.WriteLine("What would you like to do? \nlook | move | equip | use | quit"); 
+            Console.WriteLine("What would you like to do? \nlook | move | equip | use | quit");
         }
 
 
@@ -106,18 +106,20 @@ namespace ConsoleRPG {
             var dir = SelectDirection();
             var tile = GetTileInDir(dir);
             var dirVec = GetDirectionVector(dir);
-            
+
             if(tile != null) {
                 m_oCharacter.Move(dirVec);
 
                 switch(tile.GetEventType()) {
-                    case MapTileEvent.Nothing:  break;
-                    case MapTileEvent.Combat: ; break;
+                    case MapTileEvent.Nothing: break;
+                    case MapTileEvent.Combat: Combat(tile); break;
                     case MapTileEvent.Treasure: break;
                 }
 
                 m_sFeedbackMsg = tile.GetMoveMessage();
             }
+            else
+                m_sFeedbackMsg = MessageManager.instance.GetRandomMsg("move_inacessible_area");
         }
 
         /// <summary>
@@ -156,10 +158,10 @@ namespace ConsoleRPG {
         private void Treasure(MapTile tile)
         {
             m_sFeedbackMsg = "You just found treasure! (NOT IMPLEMENTED YET)";
-            
-            
+
+
         }
-        
+
         #endregion
 
         // directions prompt

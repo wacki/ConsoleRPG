@@ -52,17 +52,17 @@ namespace ConsoleRPG {
         // similar to Console.WriteLine
         public void PrintRandomMsg(string key, params object[] args)
         {
-            Console.WriteLine(GetRandomMsg(key), args);
+            Console.WriteLine(GetRandomMsg(key, args));
         }
 
         // Function returning a random message from the dictionary based on the key
-        public string GetRandomMsg(string key)
+        public string GetRandomMsg(string key, params object[] args)
         {
             Random rand = new Random();
             List<string> messageList;
             // Try and get our list from the dictionary
             if(_messages.TryGetValue(key, out messageList)) {
-                return messageList[rand.Next(0, messageList.Count)];
+                return string.Format(messageList[rand.Next(0, messageList.Count)], args);
             }
 
             return "MISSING MESSAGE!";

@@ -19,6 +19,7 @@ namespace ConsoleRPG {
 
 
         private Type m_eType;
+        private MapTileEvent m_eTileEvent;
 
         public ConsoleColor color
         {
@@ -35,9 +36,10 @@ namespace ConsoleRPG {
         }
 
 
-        public MapTile(Type type)
+        public MapTile(Type type, MapTileEvent tileEvent)
         {
             m_eType = type;
+            m_eTileEvent = tileEvent;
         }
 
         public void Print()
@@ -47,45 +49,72 @@ namespace ConsoleRPG {
 
         public string  GetLookMessage()
         {
-            return MessageManager.instance.GetRandomMsg("map_look_safe");
+            string areaString = "";
+            string eventTypeString = "";
 
-            // todo:    for now this just prints the safe message. However should this
-            //          tile contain a monster or a treasure this message should reflect that.
-            //          also, don't forget about tile types here!
+            switch(m_eTileEvent) {
+                case MapTileEvent.Nothing: eventTypeString = "safe"; break;
+                case MapTileEvent.Combat: eventTypeString = "combat"; break;
+                case MapTileEvent.Treasure: eventTypeString = "treasure"; break;
+            }
+
+            switch(m_eType) {
+                case Type.Plains: areaString = "grassy area"; break;
+                case Type.Mountains: areaString = "mountanous area"; break;
+                case Type.Water: areaString = "water area"; break;
+                case Type.Wood: areaString = "forest"; break;
+            }
+
+
+            return MessageManager.instance.GetRandomMsg("map_look_" + eventTypeString, areaString);
         }
 
         public string GetMoveMessage()
         {
-
-            switch(m_eType) {
-                case Type.Plains:
-                    return MessageManager.instance.GetRandomMsg("map_move_plain_safe");
-                case Type.Mountains:
-                    return MessageManager.instance.GetRandomMsg("map_move_mountain_safe");
-                case Type.Water:
-                    return MessageManager.instance.GetRandomMsg("map_move_message_safe");
-                case Type.Wood:
-                default:
-                    return MessageManager.instance.GetRandomMsg("map_move_forest_safe");
+            string areaString = "";
+            string eventTypeString = "";
+            
+            switch(m_eTileEvent) {
+                case MapTileEvent.Nothing: eventTypeString = "safe"; break;
+                case MapTileEvent.Combat: eventTypeString = "combat"; break;
+                case MapTileEvent.Treasure: eventTypeString = "treasure"; break;
             }
+            
+            switch(m_eType) {
+                case Type.Plains: areaString = "plains"; break;
+                case Type.Mountains: areaString = "mountains"; break;
+                case Type.Water: areaString = "water"; break;
+                case Type.Wood: areaString = "woods"; break;
+            }
+            
+                        
+            return MessageManager.instance.GetRandomMsg("map_move_" + eventTypeString, areaString);
         }
 
         // returns a monster CLASS to be used in combat
         // this is currently just a placeholder.
-        public string GetMonster()
+        public Monsters GetMonster()
         {
-            return "IMPLEMENT_MONSTER_TYPES";
+            // todo: spawn monster based on tile type
+            if(m_eTileEvent == MapTileEvent.Combat)
+                return new Monsters();
+
+            return null;
         }
 
         // returns a treasure class to be looted by the character
         public string GetTreasure()
         {
-            return "IMPLEMENT_TREASURE_TYPES";
+            // todo: spawn monster based on tile type
+            if(m_eTileEvent == MapTileEvent.Combat)
+                return "TREASURE_TODO";
+
+            return "NO TREASURE TODO";
         }
 
         public MapTileEvent GetEventType()
         {
-            return MapTileEvent.Nothing;
+            return m_eTileEvent;
         }
     }
 
@@ -132,8 +161,17 @@ namespace ConsoleRPG {
                         type = MapTile.Type.Mountains;
                     else if(randInt < 500) // 30% chance of tile being a forest
                         type = MapTile.Type.Wood;
-                    
-                    m_rgTiles[y, x] = new MapTile(type);
+
+                    randInt = rand.Next(0, 1000);
+                    MapTileEvent tileEvent = MapTileEvent.Nothing;
+                    if(randInt < 100) // 10% chance of monster
+                        tileEvent = MapTileEvent.Combat;
+                    else if(randInt < 200) // 10% chance of random loot
+                        tileEvent = MapTileEvent.Treasure;                   
+
+
+
+                    m_rgTiles[y, x] = new MapTile(type, tileEvent);
                 }
             }
         }
