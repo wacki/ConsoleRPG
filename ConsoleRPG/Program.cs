@@ -32,11 +32,20 @@ namespace ConsoleRPG {
             MessageManager.instance.AddMsg("attack_creature", "You lunge at the creature");
             MessageManager.instance.AddMsg("attack_creature", "You slash at the creature");
             //Monster attack
-            MessageManager.instance.AddMsg("attack_creature", "The creature swing at you");
-            MessageManager.instance.AddMsg("attack_creature", "The creature at you");
-            MessageManager.instance.AddMsg("attack_creature", "The creature at you");
-            MessageManager.instance.AddMsg("attack_creature", "The creature at you");
-            MessageManager.instance.AddMsg("creature_attack", "The creature at you");
+            MessageManager.instance.AddMsg("attack_creature", "The creature took a swing at you");
+            MessageManager.instance.AddMsg("attack_creature", "The creature dashed at you");
+            MessageManager.instance.AddMsg("attack_creature", "The creature lunged at you");
+            MessageManager.instance.AddMsg("attack_creature", "The creature slashed at you");
+            MessageManager.instance.AddMsg("creature_attack", "The creature tried to bite you");
+
+            //Player attack Failure
+            MessageManager.instance.AddMsg("player_attack_failure", "Your attack bounced off");
+            MessageManager.instance.AddMsg("player_attack_failure", "Your attack missed");
+            MessageManager.instance.AddMsg("player_attack_failure", "It dogged you attack!");
+            //Player attack Sucsess
+            MessageManager.instance.AddMsg("player_attack_sucsess", "Your attack hit deep");
+            MessageManager.instance.AddMsg("player_attack_sucsess", "Your attack grased it");
+            MessageManager.instance.AddMsg("player_attack_sucsess", "It took your attact to the face!");
             // choose a direction prompt
             MessageManager.instance.AddMsg("choose_direction_prompt", "Choose a direction!");
 
