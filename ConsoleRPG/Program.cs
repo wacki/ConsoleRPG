@@ -57,6 +57,34 @@ namespace ConsoleRPG {
             // quit game prompt messages
             MessageManager.instance.AddMsg("quit_game_prompt", "Are you sure you want to quit the game? (yes, no)");
 
+            //Generic Monster Messages
+            MessageManager.instance.AddMsg("normal_monster_encounter", "You are ambushed and attacked from behind!");
+            MessageManager.instance.AddMsg("normal_monster_encounter", "You jump backwards as a creature emerges from the bushes!");
+            MessageManager.instance.AddMsg("normal_monster_encounter", "You feel your skin crawl and turn around to find a monster about to attack you!");
+
+            //Goblin Messages
+            MessageManager.instance.AddMsg("goblin_monster_encounter", "You hear the unmistakable cackle of a goblin before it leaps out to fight you!");
+            MessageManager.instance.AddMsg("goblin_monster_encounter", "You feel a tugging on your bag, and turn around to find a goblin trying to steal your stuff!");
+
+            //Orc Messages
+            MessageManager.instance.AddMsg("orc_monster_encounter", "A paralyzing war cry cuts through the air as you spin around to see an orc charging right at you!");
+            MessageManager.instance.AddMsg("orc_monster_encounter", "You come across an orc who's set up camp, he doesn't seem too happy that you have disturbed his meal time!");
+
+            //Wolf Messages
+            MessageManager.instance.AddMsg("wolf_monster_encounter", "A snarl freezes you in your steps as a lone wolf emerges from hiding.");
+            MessageManager.instance.AddMsg("wolf_monster_encounter", "Growling draws your gaze to the side and you are amazed you missed the wolf standing right next to the trail!");
+
+            //Giant Spider Messages
+            MessageManager.instance.AddMsg("spider_monster_encounter", "A clacking sound in the trees draws your gaze up, to find a giant spider lowering itself on top of you!");
+            MessageManager.instance.AddMsg("spider_monster_encounter", "Walking between two trees, you get caught in a giant web! You cut yourself free just as a giant spider comes to check it's trap.");
+
+            //Lizardfolk Messages
+            MessageManager.instance.AddMsg("lizard_monster_encounter", "A hissing sound is all the warning you get as a Lizardfolk jumps out of the sands and jumps at you!");
+            MessageManager.instance.AddMsg("lizard_monster_encounter", "As you walk across the sands, the ground suddenly gives way underneath you, landing you in a Lizardfolk hide-away!");
+
+            //Alligator Messages
+            MessageManager.instance.AddMsg("alligator_monster_encounter", "As you walk along the water edge, an explosion of water and movement launches itself at you from the water!");
+            MessageManager.instance.AddMsg("alligator_monster_encounter", "An alligator is resting on the trail you're taking. It doesn't look like it wants to move and motions aggressively at you.");
             // start message
             MessageManager.instance.AddMsg("start_game_msg", "You wake up in an unknown location.");
 
