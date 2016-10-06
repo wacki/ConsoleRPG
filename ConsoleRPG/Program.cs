@@ -32,20 +32,30 @@ namespace ConsoleRPG {
             MessageManager.instance.AddMsg("attack_creature", "You lunge at the creature");
             MessageManager.instance.AddMsg("attack_creature", "You slash at the creature");
             //Monster attack
-            MessageManager.instance.AddMsg("attack_creature", "The creature took a swing at you");
-            MessageManager.instance.AddMsg("attack_creature", "The creature dashed at you");
-            MessageManager.instance.AddMsg("attack_creature", "The creature lunged at you");
-            MessageManager.instance.AddMsg("attack_creature", "The creature slashed at you");
-            MessageManager.instance.AddMsg("creature_attack", "The creature tried to bite you");
+            MessageManager.instance.AddMsg("attack_creature", "The creature takes a swing at you");
+            MessageManager.instance.AddMsg("attack_creature", "The creature dashes at you");
+            MessageManager.instance.AddMsg("attack_creature", "The creature lunges at you");
+            MessageManager.instance.AddMsg("attack_creature", "The creature slashes at you");
+            MessageManager.instance.AddMsg("creature_attack", "The creature tries to bite you");
 
             //Player attack Failure
-            MessageManager.instance.AddMsg("player_attack_failure", "Your attack bounced off and it bit you!");
-            MessageManager.instance.AddMsg("player_attack_failure", "Your attack missed and it slashed you!");
-            MessageManager.instance.AddMsg("player_attack_failure", "It dogged you attack! and hit you!");
+            MessageManager.instance.AddMsg("player_attack_failure", "Your attack bounced off and the monster bites at you!");
+            MessageManager.instance.AddMsg("player_attack_failure", "Your attack missed and the mosnter slashes at you!");
+            MessageManager.instance.AddMsg("player_attack_failure", "The monster dodges your attack and hits you back!");
             //Player attack Sucsess
-            MessageManager.instance.AddMsg("player_attack_sucsess", "Your attack hit deep");
-            MessageManager.instance.AddMsg("player_attack_sucsess", "Your attack grased it");
-            MessageManager.instance.AddMsg("player_attack_sucsess", "It took your attact to the face!");
+            MessageManager.instance.AddMsg("player_attack_sucsess", "Your attack hits deep, leaving a deep gouge");
+            MessageManager.instance.AddMsg("player_attack_sucsess", "Your attack grazes the monster");
+            MessageManager.instance.AddMsg("player_attack_sucsess", "You manage a slash across the mosnter's face!");
+
+            //Player Combat Victory
+            MessageManager.instance.AddMsg("user_combat_victory", "Victorious, you move on from the fight to continue exploring.");
+            MessageManager.instance.AddMsg("user_combat_victory", "You finish off the monster, and continue on your path.");
+            MessageManager.instance.AddMsg("user_combat_victory", "The fight is over, and you decide to push ahead.");
+
+            //Player Combat Flee
+            MessageManager.instance.AddMsg("user_combat_victory", "You barely escape the beast, and catch your breath before pressing on.");
+            MessageManager.instance.AddMsg("user_combat_victory", "You manage to hide yourself, and hear the monster pass you by, you're safe for now.");
+            MessageManager.instance.AddMsg("user_combat_victory", "You turn tail and run from the monster. You manage to lose it, and decide to continue.");
 
             // choose a direction prompt
             MessageManager.instance.AddMsg("choose_direction_prompt", "Choose a direction!");
@@ -54,19 +64,19 @@ namespace ConsoleRPG {
             MessageManager.instance.AddMsg("user_command_invalid", "That is not a valid action!");
 
             // map tile look messages
-            MessageManager.instance.AddMsg("map_look_safe", "This area looks pretty safe!");
-            MessageManager.instance.AddMsg("map_look_safe", "I don't think I'll be running into any trouble by going there.");
+            MessageManager.instance.AddMsg("map_look_safe", "The area ahead looks pretty safe!");
+            MessageManager.instance.AddMsg("map_look_safe", "You don't think you'll encounter any danger by going there.");
             MessageManager.instance.AddMsg("map_look_safe", "You don't notice anything dangerous that way");
             MessageManager.instance.AddMsg("map_look_safe", "Nothing in that direction seems dangerous to you");
             MessageManager.instance.AddMsg("map_look_safe", "This {0} looks pretty safe!");
-            MessageManager.instance.AddMsg("map_look_safe", "I don't think I'll be running into any trouble by going to this {0}.");
+            MessageManager.instance.AddMsg("map_look_safe", "You don't think you'll be running into any trouble by going to that {0}.");
 
             MessageManager.instance.AddMsg("map_look_safe", "This {0} looks pretty safe!");
 
 
-            MessageManager.instance.AddMsg("map_look_safe", "It looks like this {0} over there is pretty safe.");
-            MessageManager.instance.AddMsg("map_look_combat", "I don't like the look of that {0} over there.");
-            MessageManager.instance.AddMsg("map_look_treasure", "You enter a {0} area, Oh what is that?");            
+            MessageManager.instance.AddMsg("map_look_safe", "It looks like the {0} over there is pretty safe.");
+            MessageManager.instance.AddMsg("map_look_combat", "You don't like the look of that {0} over there.");
+            MessageManager.instance.AddMsg("map_look_treasure", "You notice something interesting in that {0}, what is that?");            
 
             // map tile move messages
             //MessageManager.instance.AddMsg("map_move_forest_safe", "You enter a forest area, nothing is here.");
@@ -83,10 +93,10 @@ namespace ConsoleRPG {
             //MessageManager.instance.AddMsg("map_move_water_safe", "This pond doesn't seem to have any monsters in it, and you take a moment to splash some cooling water on your face.");
             MessageManager.instance.AddMsg("map_move_safe", "You enter a {0}, nothing is here.");
             MessageManager.instance.AddMsg("map_move_combat", "You enter a {0}, and are attacked.");
-            MessageManager.instance.AddMsg("map_move_treasure", "You enter a {0} and find something interesting");
+            MessageManager.instance.AddMsg("map_move_treasure", "You enter a {0} and find something valulable!");
 
 
-            MessageManager.instance.AddMsg("move_inacessible_area", "The world seems to suddenly end, over there. I should probably stay where I am.");
+            MessageManager.instance.AddMsg("move_inacessible_area", "Something is telling you not to continue that direction, and you decide to pick a new direction");
 
             // quit game prompt messages
             MessageManager.instance.AddMsg("quit_game_prompt", "Are you sure you want to quit the game? (yes, no)");
@@ -129,23 +139,23 @@ namespace ConsoleRPG {
             MessageManager.instance.AddMsg("centaur_monster_encounter", "You hear a voice call out to you across the plains, as you turn an arrow whizzes past your face! A centaur is shooting at you!");
 
             // start message
-            MessageManager.instance.AddMsg("start_game_msg", "You wake up in an unknown location. You decide to explore and find a way back to civilization");
+            MessageManager.instance.AddMsg("start_game_msg", "You wake up in an unknown location. You decide to explore the area to see what you can learn");
 
             // item messages
-            MessageManager.instance.AddMsg("item_pickup", "Congratulation !!! You just picked {0} item");
+            MessageManager.instance.AddMsg("item_pickup", "Congratulations! You just picked {0} item");
             MessageManager.instance.AddMsg("item_pickup", "Destiny has given you this {0} item");
-            MessageManager.instance.AddMsg("item_pickup", "Use this {0} item wisely as this can be your biggest reward");
-            MessageManager.instance.AddMsg("item_pickup", "Luck has showered its {0} item upon you who is the choosen one");
-            MessageManager.instance.AddMsg("item_pickup", "This {0} item can surely help you through your tough journey");
+            MessageManager.instance.AddMsg("item_pickup", "Use this {0} wisely as such finds may be scarce.");
+            MessageManager.instance.AddMsg("item_pickup", "Luck has shown you favour, and you manage to find a {0}");
+            MessageManager.instance.AddMsg("item_pickup", "This {0} can surely help you through your tough journey");
 
-            MessageManager.instance.AddMsg("item_use", "Enhance your capability by using this legendary {0} item");
-            MessageManager.instance.AddMsg("item_use", "Have no regrets after using this {0} item");
-            MessageManager.instance.AddMsg("item_use", "If you just use then later you might loose, but if you wisely use then enemies might loose");
+            MessageManager.instance.AddMsg("item_use", "You decide it's time to use the {0}, and feel a new strength flow through you.");
+            MessageManager.instance.AddMsg("item_use", "As you use your {0}, you know it was the right choice to do so.");
+            MessageManager.instance.AddMsg("item_use", "Better to use your item now before you lose your chance to do so.");
 
 
-            MessageManager.instance.AddMsg("item_equip", "You just equipped the legendary {0} item");
-            MessageManager.instance.AddMsg("item_use", "God answered your prayers and thus has given you this {0} item to equip");
-            MessageManager.instance.AddMsg("item_use", "Hard Work always pays & your {0} item always stays");
+            MessageManager.instance.AddMsg("item_equip", "You have equipped the {0}, and feel assured by it's weight.");
+            MessageManager.instance.AddMsg("item_equip", "As you equip your {0}, its presence fills you with new confidence.");
+            MessageManager.instance.AddMsg("item_equip", "You take up your {0}, treasuring it's find and looking forward to it's use.");
 
             // Instantiate and run the game
             Game oGame = new Game();

@@ -29,7 +29,7 @@ namespace ConsoleRPG
     {
         public StrenghtPotion()
         {
-            name = "Strenght Potion";
+            name = "Strength Potion";
             equipableornonequipable = false;
             healthbonus = 0;
             baseattackbonus = 3;
@@ -40,10 +40,10 @@ namespace ConsoleRPG
     {
         public Sword()
         {
-            name = "Sword";
+            name = "Great Sword";
             equipableornonequipable = false;
             healthbonus = 0;
-            baseattackbonus = 1;
+            baseattackbonus = 2;
         }
     }
 
@@ -51,10 +51,10 @@ namespace ConsoleRPG
     {
         public Axe()
         {
-            name = "Axe";
+            name = "Battle Axe";
             equipableornonequipable = false;
-            healthbonus = 5;
-            baseattackbonus = 2;
+            healthbonus = 0;
+            baseattackbonus = 4;
         }
     }
 }

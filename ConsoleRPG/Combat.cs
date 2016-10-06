@@ -66,7 +66,7 @@ namespace ConsoleRPG
         //the player wants to run away
         private static void run()
         {
-            Console.WriteLine("You try and run away");
+            Console.WriteLine("You attempt to flee");
             int iPlayerDamage = roll();
             MessageManager.instance.PrintRandomMsg("creature_attack");
             int iMonsterDamage = roll();
@@ -92,7 +92,7 @@ namespace ConsoleRPG
         {
             Monster monster = tile.GetMonster();
 
-            Console.WriteLine("You have encountered {0}", monster.name);
+            Console.WriteLine("You have encountered a {0}", monster.name);
             //("What would you like to do?")
             Util.GetInput((string input, out string output) => {
                 output = input;
@@ -111,8 +111,11 @@ namespace ConsoleRPG
             tile.eTileEvent = MapTileEvent.Nothing;
             // else dont change it.
 
+            //In case player wins combat
+            return MessageManager.instance.GetRandomMsg("user_combat_victory");
 
-            return "combat is over and we need to add a message here FOR FUCKS SACKE";
+            //In case player flees combat
+            return MessageManager.instance.GetRandomMsg("user_combat_flee");
         }
     }
 }

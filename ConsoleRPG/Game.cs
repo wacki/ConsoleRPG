@@ -170,7 +170,7 @@ namespace ConsoleRPG {
         private void DeathCheck()
         {
             if(m_oCharacter.health <= 0) {
-                Console.WriteLine("You just died you idiot CHANGE THIS MESSAGE");
+                Console.WriteLine("You were slain on your journey.");
                 bool restart = Util.YesNoPrompt();
 
                 if(!restart)
