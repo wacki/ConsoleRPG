@@ -39,9 +39,9 @@ namespace ConsoleRPG {
             MessageManager.instance.AddMsg("creature_attack", "The creature tried to bite you");
 
             //Player attack Failure
-            MessageManager.instance.AddMsg("player_attack_failure", "Your attack bounced off");
-            MessageManager.instance.AddMsg("player_attack_failure", "Your attack missed");
-            MessageManager.instance.AddMsg("player_attack_failure", "It dogged you attack!");
+            MessageManager.instance.AddMsg("player_attack_failure", "Your attack bounced off and it bit you!");
+            MessageManager.instance.AddMsg("player_attack_failure", "Your attack missed and it slashed you!");
+            MessageManager.instance.AddMsg("player_attack_failure", "It dogged you attack! and hit you!");
             //Player attack Sucsess
             MessageManager.instance.AddMsg("player_attack_sucsess", "Your attack hit deep");
             MessageManager.instance.AddMsg("player_attack_sucsess", "Your attack grased it");
