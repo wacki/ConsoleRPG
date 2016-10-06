@@ -7,6 +7,8 @@ namespace ConsoleRPG {
         private Map m_oMap;
         private Character m_oCharacter;
 
+        private string m_sFeedbackMsg = "";
+
 
         public Game()
         {
@@ -18,6 +20,8 @@ namespace ConsoleRPG {
         
         public void Run()
         {
+            m_sFeedbackMsg = MessageManager.instance.GetRandomMsg("start_game_msg");
+
             m_bRunning = true;
             while(m_bRunning) {
                 Console.Clear();
@@ -26,10 +30,13 @@ namespace ConsoleRPG {
                 int playerX = m_oCharacter.coordinates.x;
                 int playerY = m_oCharacter.coordinates.y;
                 m_oMap.Print(playerX, playerY);
-                
-                // 2. handle user input?
+
+                // 2. display feedback from previous action
+                Console.WriteLine("\n\n" + m_sFeedbackMsg + "\n");
+
+                // 3. handle user input?
+                PrintInputOptions();
                 HandleUserInput();
-                Console.ReadLine();
             }
         }
         
@@ -69,6 +76,12 @@ namespace ConsoleRPG {
 
         #region user commands
 
+        private void PrintInputOptions()
+        {
+            Console.WriteLine("What would you like to do? \nlook | move | equip | use | quit"); 
+        }
+
+
         /// <summary>
         /// Called when player uses the look command
         /// </summary>
@@ -78,7 +91,10 @@ namespace ConsoleRPG {
             var dir = SelectDirection();
             var tile = GetTileInDir(dir);
 
-            tile.PrintLookMessage();
+            if(tile != null)
+                m_sFeedbackMsg = tile.GetLookMessage();
+            else
+                m_sFeedbackMsg = "TODO: NOTHING THERE MESSAGE (map border)";
         }
 
         /// <summary>
@@ -88,9 +104,20 @@ namespace ConsoleRPG {
         {
             // Prompt user for direction
             var dir = SelectDirection();
+            var tile = GetTileInDir(dir);
+            var dirVec = GetDirectionVector(dir);
             
+            if(tile != null) {
+                m_oCharacter.Move(dirVec);
 
-            // todo
+                switch(tile.GetEventType()) {
+                    case MapTileEvent.Nothing:  break;
+                    case MapTileEvent.Combat: ; break;
+                    case MapTileEvent.Treasure: break;
+                }
+
+                m_sFeedbackMsg = tile.GetMoveMessage();
+            }
         }
 
         /// <summary>
@@ -100,6 +127,7 @@ namespace ConsoleRPG {
         private void Equip()
         {
             // todo
+            m_sFeedbackMsg = "NOT IMPLEMENTED YET";
         }
 
         /// <summary>
@@ -109,6 +137,7 @@ namespace ConsoleRPG {
         private void Use()
         {
             // todo
+            m_sFeedbackMsg = "NOT IMPLEMENTED YET";
         }
 
 
@@ -116,23 +145,30 @@ namespace ConsoleRPG {
         /// <summary>
         /// Called when player enteres a combat situation.
         /// </summary>
-        private void Combat()
+        private void Combat(MapTile tile)
         {
-
+            m_sFeedbackMsg = "Combat started with monster: " + tile.GetMonster();
         }
 
-
+        /// <summary>
+        /// Called when player enteres a combat situation.
+        /// </summary>
+        private void Treasure(MapTile tile)
+        {
+            m_sFeedbackMsg = "You just found treasure! (NOT IMPLEMENTED YET)";
+        }
+        
         #endregion
 
         // directions prompt
-        private Directions SelectDirection()
+        private Direction SelectDirection()
         {
             Console.WriteLine(MessageManager.instance.GetRandomMsg("choose_direction_prompt") + "\n");
 
             for(int i = 0; i < 4; i++)
-                Console.Write("({0}) {1}", i, (Directions)i);
+                Console.Write("({0}){1} ", i, (Direction)i);
 
-            return (Directions)Util.GetIntegerInput(0, 3);
+            return (Direction)Util.GetIntegerInput(0, 3);
         }
 
         /// <summary>
@@ -140,19 +176,19 @@ namespace ConsoleRPG {
         /// </summary>
         /// <param name="dir"></param>
         /// <returns></returns>
-        private MapTile GetTileInDir(Directions dir)
+        private MapTile GetTileInDir(Direction dir)
         {
             var newPosition = m_oCharacter.coordinates + GetDirectionVector(dir);
             return m_oMap.GetTileAt(newPosition);
         }
 
-        private Vector2i GetDirectionVector(Directions dir)
+        private Vector2i GetDirectionVector(Direction dir)
         {
             switch(dir) {
-                case Directions.North: return new Vector2i(0, 1);
-                case Directions.East: return new Vector2i(1, 0);
-                case Directions.South: return new Vector2i(0, -1);
-                case Directions.West: return new Vector2i(-1, 0);
+                case Direction.North: return new Vector2i(0, 1);
+                case Direction.East: return new Vector2i(1, 0);
+                case Direction.South: return new Vector2i(0, -1);
+                case Direction.West: return new Vector2i(-1, 0);
                 default: return new Vector2i(0, 0);
             }
 

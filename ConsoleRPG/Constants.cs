@@ -15,7 +15,11 @@ namespace ConsoleRPG {
         public static readonly string eMapPlayerSymbol = "+";
     }
 
-    enum Directions {
+    enum Direction {
         North, East, South, West
+    }
+
+    enum MapTileEvent {
+        Nothing, Combat, Treasure
     }
 }
