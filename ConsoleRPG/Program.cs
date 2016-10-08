@@ -32,10 +32,10 @@ namespace ConsoleRPG {
             MessageManager.instance.AddMsg("attack_creature", "You lunge at the creature");
             MessageManager.instance.AddMsg("attack_creature", "You slash at the creature");
             //Monster attack
-            MessageManager.instance.AddMsg("attack_creature", "The creature takes a swing at you");
-            MessageManager.instance.AddMsg("attack_creature", "The creature dashes at you");
-            MessageManager.instance.AddMsg("attack_creature", "The creature lunges at you");
-            MessageManager.instance.AddMsg("attack_creature", "The creature slashes at you");
+            MessageManager.instance.AddMsg("creature_attack", "The creature takes a swing at you");
+            MessageManager.instance.AddMsg("creature_attack", "The creature dashes at you");
+            MessageManager.instance.AddMsg("creature_attack", "The creature lunges at you");
+            MessageManager.instance.AddMsg("creature_attack", "The creature slashes at you");
             MessageManager.instance.AddMsg("creature_attack", "The creature tries to bite you");
 
             //Player attack Failure
@@ -53,9 +53,9 @@ namespace ConsoleRPG {
             MessageManager.instance.AddMsg("user_combat_victory", "The fight is over, and you decide to push ahead.");
 
             //Player Combat Flee
-            MessageManager.instance.AddMsg("user_combat_victory", "You barely escape the beast, and catch your breath before pressing on.");
-            MessageManager.instance.AddMsg("user_combat_victory", "You manage to hide yourself, and hear the monster pass you by, you're safe for now.");
-            MessageManager.instance.AddMsg("user_combat_victory", "You turn tail and run from the monster. You manage to lose it, and decide to continue.");
+            MessageManager.instance.AddMsg("user_combat_flee", "You barely escape the beast, and catch your breath before pressing on.");
+            MessageManager.instance.AddMsg("user_combat_flee", "You manage to hide yourself, and hear the monster pass you by, you're safe for now.");
+            MessageManager.instance.AddMsg("user_combat_flee", "You turn tail and run from the monster. You manage to lose it, and decide to continue.");
 
             // choose a direction prompt
             MessageManager.instance.AddMsg("choose_direction_prompt", "Choose a direction!");
