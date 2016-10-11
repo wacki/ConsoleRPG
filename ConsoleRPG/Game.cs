@@ -4,6 +4,7 @@ namespace ConsoleRPG {
     class Game {
 
         private bool m_bRunning;
+        private bool m_bRestart;
         private Map m_oMap;
         private Character m_oCharacter;
 
@@ -12,10 +13,20 @@ namespace ConsoleRPG {
 
         public Game()
         {
+            Start();
+        }
+
+        public void Start()
+        {
+            // reset restart variable
+            m_bRestart = false;
+
+            // generate new map
             m_oMap = new Map(Constants.iMapSizeX, Constants.iMapSizeY);
 
-            // set up character
+            // set up fresh character
             m_oCharacter = new Character();
+
         }
 
         public void Run()
@@ -38,6 +49,9 @@ namespace ConsoleRPG {
                 PrintInputOptions();
                 HandleUserInput();
             }
+
+            if(m_bRestart)
+                Start();
         }
 
         public void Stop(bool prompt = false)
@@ -63,7 +77,7 @@ namespace ConsoleRPG {
                     case "quit": Stop(true); return true;
                     case "look": Look(); return true;
                     case "move": Move(); return true;
-                    case "status": /*print out current health and max health and gold amount*/ return true; 
+                    case "status": Status(); return true; 
                     case "use": Use(); return true;
                 }
 
@@ -125,7 +139,6 @@ namespace ConsoleRPG {
         /// <summary>
         /// Called when player uses the equip command
         /// </summary>
-        /// <param name="dir"></param>
         private void Equip()
         {
             // todo
@@ -135,13 +148,40 @@ namespace ConsoleRPG {
         /// <summary>
         /// Called when player uses the use command
         /// </summary>
-        /// <param name="dir"></param>
         private void Use()
         {
-            // todo
-            m_sFeedbackMsg = "NOT IMPLEMENTED YET";
+            if(!m_oCharacter.hasItems) {
+                MessageManager.instance.PrintRandomMsg("no_items_to_use");
+                return;
+            }
+
+            MessageManager.instance.PrintRandomMsg("choose_item_to_use");
+            m_oCharacter.PrintItemList();
+
+            int chosenItem = Util.GetInput<int>((string input, out int output) => {
+                output = -1;
+
+                if(input.ToLower() == "abort")
+                    return true;                
+                if(!int.TryParse(Util.GetInput(), out output))
+                    return false;
+                if(output < 0 || m_oCharacter.numItems < output)
+                    return false;
+
+                return true;
+            }, "Enter a number to choose an item, or type 'abort' to abort the action.");
+                
+            if(chosenItem != -1) {
+                m_oCharacter.Use(chosenItem);
+            }
+
         }
 
+        private Item SelectItemToUse()
+        {
+            // todo
+            return null;
+        }
 
 
         /// <summary>
@@ -153,6 +193,14 @@ namespace ConsoleRPG {
 
             DeathCheck();
             //WinCheck();
+        }
+
+        private void Status()
+        {
+            m_oCharacter.PrintStats();
+            // print out current HP
+            // print out currently equipped items
+            // print out inventory
         }
 
         /// <summary>
@@ -171,12 +219,9 @@ namespace ConsoleRPG {
         {
             if(m_oCharacter.health <= 0) {
                 Console.WriteLine("You were slain on your journey.");
-                bool restart = Util.YesNoPrompt();
-
-                if(!restart)
-                    Stop(false);
-                // else restart TODO marc
-                    
+                m_bRestart = Util.YesNoPrompt();
+                
+                Stop(false);                    
             }
         }
 
@@ -184,10 +229,9 @@ namespace ConsoleRPG {
         {
             if(m_oCharacter.gold >= Constants.iGoldAmountToWin) {
                 Console.WriteLine("You win the game. Wanna play again?");
-                bool restart = Util.YesNoPrompt();
-
-                if(!restart)
-                    Stop(false);
+                m_bRestart = Util.YesNoPrompt();
+                
+                Stop(false);
             }
         }
 

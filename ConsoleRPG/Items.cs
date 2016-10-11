@@ -8,53 +8,58 @@ namespace ConsoleRPG
 {
     class Item
     {
-        protected string name = "Item Name";        
-        protected bool equipableornonequipable = true;
-        protected float healthbonus = 0f;
-        protected float baseattackbonus = 0f;
+        protected string m_sName;        
+        protected bool m_bEquippable;
+        protected int m_fHealthBonus = 0;
+        protected int m_fBaseAttackBonus = 0;
+
+        public string name { get { return m_sName; } }
+        public int healthBonus { get { return m_fHealthBonus; } }
+        public int baseAttackBonus { get { return m_fBaseAttackBonus; } }
+        public bool equippable { get { return m_bEquippable; } }
     }
 
-    class HealthPotion: Item
-    {
-        public HealthPotion()
-        {
-            name = "Health Potion";
-            equipableornonequipable = false;
-            healthbonus = 5;
-            baseattackbonus = 0;
-        }
-    }
+    //class HealthPotion: Item
+    //{
+    //    public HealthPotion()
+    //    {
+    //        m_sName = "Health Potion";
+    //        m_bEquippable = false;
+    //        m_fHealthBonus = 5;
+    //        m_fBaseAttackBonus = 0;
+    //    }
+    //}
 
-    class StrenghtPotion : Item
-    {
-        public StrenghtPotion()
-        {
-            name = "Strength Potion";
-            equipableornonequipable = false;
-            healthbonus = 0;
-            baseattackbonus = 3;
-        }
-    }
+    //class StrenghtPotion : Item
+    //{
+    //    public StrenghtPotion()
+    //    {
+    //        m_sName = "Strength Potion";
+    //        m_bEquippable = false;
+    //        m_fHealthBonus = 0;
+    //        m_fBaseAttackBonus = 3;
+    //    }
+    //}
 
-    class Sword : Item
-    {
-        public Sword()
-        {
-            name = "Great Sword";
-            equipableornonequipable = false;
-            healthbonus = 0;
-            baseattackbonus = 2;
-        }
-    }
+    //class Sword : Item
+    //{
+    //    public Sword()
+    //    {
+    //        m_sName = "Great Sword";
+    //        m_bEquippable = false;
+    //        m_fHealthBonus = 0;
+    //        m_fBaseAttackBonus = 2;
+    //    }
+    //}
 
-    class Axe : Item
-    {
-        public Axe()
-        {
-            name = "Battle Axe";
-            equipableornonequipable = false;
-            healthbonus = 0;
-            baseattackbonus = 4;
-        }
-    }
+    //class Axe : Item
+    //{
+    //    public Axe()
+    //    {
+    //        m_sName = "Battle Axe";
+    //        m_bEquippable = false;
+    //        m_fHealthBonus = 0;
+    //        m_fBaseAttackBonus = 4;
+    //    }
+    //}
 }
