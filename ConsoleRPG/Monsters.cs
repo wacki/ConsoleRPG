@@ -127,7 +127,7 @@ namespace ConsoleRPG {
                 case 0: {
                         m_sName = "Goblin";
                         m_iHealth = 4;
-                        m_iBaseAttack = 1;
+                        m_iBaseAttack = 3;
 
                         break;
                     }
@@ -136,7 +136,7 @@ namespace ConsoleRPG {
                 case 1: {
                         m_sName = "Orc";
                         m_iHealth = 8;
-                        m_iBaseAttack = 4;
+                        m_iBaseAttack = 6;
 
                         break;
                     }
@@ -145,7 +145,7 @@ namespace ConsoleRPG {
                 case 2: {
                         m_sName = "Wolf";
                         m_iHealth = 6;
-                        m_iBaseAttack = 3;
+                        m_iBaseAttack = 5;
 
                         break;
                     }
@@ -154,7 +154,7 @@ namespace ConsoleRPG {
                 case 3: {
                         m_sName = "Giant Spider";
                         m_iHealth = 12;
-                        m_iBaseAttack = 4;
+                        m_iBaseAttack = 6;
 
                         break;
                     }
@@ -163,7 +163,7 @@ namespace ConsoleRPG {
                 case 4: {
                         m_sName = "Lizardfolk";
                         m_iHealth = 10;
-                        m_iBaseAttack = 5;
+                        m_iBaseAttack = 7;
 
                         break;
                     }
@@ -172,7 +172,7 @@ namespace ConsoleRPG {
                 case 5: {
                         m_sName = "Alligator";
                         m_iHealth = 14;
-                        m_iBaseAttack = 2;
+                        m_iBaseAttack = 4;
 
                         break;
                     }
@@ -181,7 +181,7 @@ namespace ConsoleRPG {
                 case 6: {
                         m_sName = "Wyvern";
                         m_iHealth = 16;
-                        m_iBaseAttack = 6;
+                        m_iBaseAttack = 8;
 
                         break;
                     }
@@ -190,7 +190,7 @@ namespace ConsoleRPG {
                 case 7: {
                         m_sName = "Centaur";
                         m_iHealth = 10;
-                        m_iBaseAttack = 4;
+                        m_iBaseAttack = 6;
 
                         break;
                     }

@@ -15,7 +15,7 @@ namespace ConsoleRPG
         private static bool attack(Character character, Monster monster)
         {
             MessageManager.instance.PrintRandomMsg("attack_creature");
-            int iPlayerRoll = roll();
+            int iPlayerRoll = roll() + roll();
             MessageManager.instance.PrintRandomMsg("creature_attack");
             int iMonsterRoll = roll();
             iPlayerRoll += character.baseAttack;
@@ -45,9 +45,9 @@ namespace ConsoleRPG
         }
 
         //If the monster is killed will it drop loot?
-        private static void dropLoot()
+        private static int dropLoot()
         {
-            //to do
+            return 1;
         }
         //the roll for the attack
         private static int roll()
@@ -96,12 +96,12 @@ namespace ConsoleRPG
                 Console.WriteLine("The {1} delt {0} dammage to you! But", i_totalDamage, monster.name);
                 character.health -= i_totalDamage;
                IsAlive(false, character, monster);
-                return true;
+                return false;
             }
             else
             {
                 Console.WriteLine("You escaped the {0} unscaved and", monster.name);
-                return true;       
+                return false;       
             }
 
         }
@@ -112,18 +112,23 @@ namespace ConsoleRPG
             bool bCombatActive = true;
             Console.WriteLine("You have encountered a {0}", monster.name);
             //("What would you like to do?")
-            Console.WriteLine("<1>Attack <2>Run away");
+           
             while (bCombatActive == true)
             {
+                BattleMenu(character, monster);
+                Console.WriteLine("<1>Attack <2>Run away");
                 Util.GetInput((string input, out string output) =>
                 {
                     output = input;
+                    Console.Clear();
 
                     // temp input handling. This needs to be improved
                     switch (input.ToLower())
                     {
+                        
                         case "1": bCombatActive = attack(character, monster); return true;
                         case "2": bCombatActive = run(character, monster); return true;
+                            
                     }
 
                     return false;
@@ -131,15 +136,53 @@ namespace ConsoleRPG
                 }, MessageManager.instance.GetRandomMsg("user_command_invalid"));
             }
 
-            // if we win and monster is dead do this
-            tile.eTileEvent = MapTileEvent.Nothing;
-            // else dont change it.
+            if (monster.health > 0)
+            {
+                Console.ReadLine();
+                return MessageManager.instance.GetRandomMsg("user_combat_flee");
+            }
+            else
+            {
+                // if we win and monster is dead do this
+                tile.eTileEvent = MapTileEvent.Nothing;
+               character.health += dropLoot();
+                //In case player wins combat
+                return MessageManager.instance.GetRandomMsg("user_combat_victory");
+            }
+            
+        }
 
-            //In case player wins combat
-            return MessageManager.instance.GetRandomMsg("user_combat_victory");
+        public static void BattleMenu(Character character, Monster monster)
+        {
+            string s_PlayerHealth = "";
+            string s_MonstorHealth = "";
+            int i_Monster = monster.health;
+            for (int i = 0; i < 1; i++)
+            {
+                
+                Util.ConsoleWriteCol(ConsoleColor.Yellow, " ");
+                for (i = 0; i < character.health; i++)
+                {
+                    
+                    Util.ConsoleWriteCol(ConsoleColor.Red,ConsoleColor.Red, " ");
+                }
+                s_PlayerHealth = character.health.ToString();
+                Util.ConsoleWriteCol(ConsoleColor.Yellow, s_PlayerHealth);
+                 int space = (34 - i) + (i_Monster - monster.health);
+                for (i = 0; i < space; i++)
+                {
+                    Console.Write(" ");
+                }
+                s_MonstorHealth = monster.health.ToString();
+                Util.ConsoleWriteCol(ConsoleColor.Yellow, s_MonstorHealth);
+                for (i = 0; i < monster.health; i++)
+                {
 
-            //In case player flees combat
-            return MessageManager.instance.GetRandomMsg("user_combat_flee");
+                    Util.ConsoleWriteCol(ConsoleColor.Red, ConsoleColor.Red, " ");
+                }
+                Console.WriteLine();
+                
+            }
         }
     }
 }
