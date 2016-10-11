@@ -27,9 +27,19 @@ namespace ConsoleRPG {
             get { return m_fBaseAttack; }
             set { m_fBaseAttack = value; }
         }
+        public bool hasItems
+        {
+            get { return m_oInventory.Count > 0; }
+        }
+        public int numItems
+        {
+            get { return m_oInventory.Count; }
+        }
 
         // private Inventory m_oInventory;
         // private EquippableItem m_oEquippedItem;
+        private List<Item> m_oInventory;
+
 
         public Character()
         {
@@ -44,5 +54,32 @@ namespace ConsoleRPG {
             m_oCoordinates += dir;
         }
 
+        public void AddItem(Item item)
+        {
+            m_oInventory.Add(item);
+        }
+
+        public void PrintItemList()
+        {
+            for(int i = 0; i < m_oInventory.Count; i++) {
+                var item = m_oInventory[i];
+                Console.Write("(" + i + ") " + item.name + " | ");
+            }
+            Console.WriteLine();
+        }
+
+        public void Use(int itemIndex)
+        {
+            var item = m_oInventory[itemIndex];
+
+            // todo: sanity check
+            MessageManager.instance.PrintRandomMsg("character_used_item", item.name);
+            m_iHealth += item.healthBonus;
+        }
+
+        public void PrintStats()
+        {
+            Console.WriteLine("TODO: STATS");
+        }
     }
 }
