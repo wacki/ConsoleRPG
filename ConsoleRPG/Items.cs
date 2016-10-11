@@ -10,13 +10,21 @@ namespace ConsoleRPG
     {
         protected string m_sName;        
         protected bool m_bEquippable;
-        protected int m_fHealthBonus = 0;
-        protected int m_fBaseAttackBonus = 0;
+        protected int m_HealthBonus = 0;
+        protected int m_BaseAttackBonus = 0;
 
         public string name { get { return m_sName; } }
-        public int healthBonus { get { return m_fHealthBonus; } }
-        public int baseAttackBonus { get { return m_fBaseAttackBonus; } }
+        public int healthBonus { get { return m_HealthBonus; } }
+        public int baseAttackBonus { get { return m_BaseAttackBonus; } }
         public bool equippable { get { return m_bEquippable; } }
+
+        public Item(string name, bool equippable, int healthBonus, int baseAttackBonus)
+        {
+            m_sName = name;
+            m_bEquippable = equippable;
+            m_HealthBonus = healthBonus;
+            m_BaseAttackBonus = baseAttackBonus;
+        }
     }
 
     //class HealthPotion: Item

@@ -44,6 +44,10 @@ namespace ConsoleRPG {
         public Character()
         {
             // todo
+            m_oInventory = new List<Item>();
+            for(int i = 0; i < 5; i++)
+                m_oInventory.Add(new Item("Health Potion", false, 2, 0));
+
 
             // for now just spawn him in the middle of the map
             m_oCoordinates = new Vector2i(Constants.iMapSizeX / 2, Constants.iMapSizeY / 2);
@@ -77,9 +81,9 @@ namespace ConsoleRPG {
             m_iHealth += item.healthBonus;
         }
 
-        public void PrintStats()
+        public string GetStatusString()
         {
-            Console.WriteLine("TODO: STATS");
+            return "TODO: STATUS STRING";
         }
     }
 }

@@ -92,7 +92,7 @@ namespace ConsoleRPG {
 
         private void PrintInputOptions()
         {
-            Console.WriteLine("What would you like to do? \nlook | move | equip | use | quit");
+            Console.WriteLine("What would you like to do? \nlook | move | equip | use | status | quit");
         }
 
 
@@ -192,15 +192,12 @@ namespace ConsoleRPG {
             m_sFeedbackMsg = CombatManager.fight(m_oCharacter, tile);
 
             DeathCheck();
-            //WinCheck();
+            WinCheck();
         }
 
         private void Status()
         {
-            m_oCharacter.PrintStats();
-            // print out current HP
-            // print out currently equipped items
-            // print out inventory
+            m_sFeedbackMsg = m_oCharacter.GetStatusString();
         }
 
         /// <summary>
