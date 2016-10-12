@@ -9,13 +9,7 @@ namespace ConsoleRPG {
         private Character m_oCharacter;
 
         private string m_sFeedbackMsg = "";
-
-
-        public Game()
-        {
-            Start();
-        }
-
+                
         public void Start()
         {
             // reset restart variable
@@ -27,9 +21,11 @@ namespace ConsoleRPG {
             // set up fresh character
             m_oCharacter = new Character();
 
+            // Run the game
+            Run();
         }
 
-        public void Run()
+        private void Run()
         {
             m_sFeedbackMsg = MessageManager.instance.GetRandomMsg("start_game_msg");
 
@@ -40,7 +36,8 @@ namespace ConsoleRPG {
                 // 1. display map
                 int playerX = m_oCharacter.coordinates.x;
                 int playerY = m_oCharacter.coordinates.y;
-                m_oMap.Print(playerX, playerY);
+                //m_oMap.Print(playerX, playerY);
+                m_oMap.Draw(playerX, playerY);
 
                 // 2. display feedback from previous action
                 Console.WriteLine("\n\n" + m_sFeedbackMsg + "\n");

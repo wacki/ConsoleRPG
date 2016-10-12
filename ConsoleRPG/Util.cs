@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Runtime.InteropServices;
 
 namespace ConsoleRPG {
 
@@ -125,6 +126,14 @@ namespace ConsoleRPG {
             Console.ForegroundColor = fgColorOrig;
             Console.BackgroundColor = bgColorOrig;
         }
+
+        
+        /// <summary>
+        /// thank you GD45 Nick
+        /// </summary>
+        /// <returns></returns>
+        [DllImport("kernel32.dll", EntryPoint = "GetConsoleWindow", SetLastError = true)]
+        public static extern IntPtr GetConsoleHandle();
 
     }
 

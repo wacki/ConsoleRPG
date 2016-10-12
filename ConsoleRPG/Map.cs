@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Drawing;
+
 namespace ConsoleRPG {
+
 
     /// <summary>
     /// Holds information about a specific map tile
@@ -21,6 +24,8 @@ namespace ConsoleRPG {
 
         private Type m_eType;
         public MapTileEvent eTileEvent;
+        private Bitmap m_bitmap;
+        public Bitmap image { get { return m_bitmap; } }
 
         public ConsoleColor color
         {
@@ -42,6 +47,15 @@ namespace ConsoleRPG {
         {
             m_eType = type;
             eTileEvent = tileEvent;
+
+            switch(type) {
+                case Type.Plains: m_bitmap = Properties.Resources.plains; break;
+                case Type.Water: m_bitmap = Properties.Resources.water; break;
+                case Type.Wood: m_bitmap = Properties.Resources.wood; break;
+                case Type.Mountains: m_bitmap = Properties.Resources.mountain; break;
+                case Type.Desert: m_bitmap = Properties.Resources.desert; break;
+            }
+
         }
 
         public void Print()
@@ -49,7 +63,7 @@ namespace ConsoleRPG {
             Util.ConsoleWriteCol(color, Constants.eMapBackgroundColor, Constants.eMapTileSymbol);
         }
 
-        public string  GetLookMessage()
+        public string GetLookMessage()
         {
             string areaString = "";
             string eventTypeString = "";
@@ -65,6 +79,7 @@ namespace ConsoleRPG {
                 case Type.Mountains: areaString = "mountanous area"; break;
                 case Type.Water: areaString = "water area"; break;
                 case Type.Wood: areaString = "forest"; break;
+                case Type.Desert: areaString = "desert"; break;
             }
 
 
@@ -75,21 +90,21 @@ namespace ConsoleRPG {
         {
             string areaString = "";
             string eventTypeString = "";
-            
+
             switch(eTileEvent) {
                 case MapTileEvent.Nothing: eventTypeString = "safe"; break;
                 case MapTileEvent.Combat: eventTypeString = "combat"; break;
                 case MapTileEvent.Treasure: eventTypeString = "treasure"; break;
             }
-            
+
             switch(m_eType) {
                 case Type.Plains: areaString = "plains"; break;
                 case Type.Mountains: areaString = "mountains"; break;
                 case Type.Water: areaString = "water"; break;
                 case Type.Wood: areaString = "woods"; break;
             }
-            
-                        
+
+
             return MessageManager.instance.GetRandomMsg("map_move_" + eventTypeString, areaString);
         }
 
@@ -140,7 +155,7 @@ namespace ConsoleRPG {
         private MapTile[,] m_rgTiles;
         private int m_iSizeX;
         private int m_iSizeY;
-        
+
         public Map(int sizeX, int sizeY)
         {
             m_rgTiles = new MapTile[sizeY, sizeX];
@@ -150,7 +165,7 @@ namespace ConsoleRPG {
         private void Generate()
         {
             Random rand = new Random();
-            
+
 
             for(int x = 0; x < m_rgTiles.GetLength(1); x++) {
                 for(int y = 0; y < m_rgTiles.GetLength(0); y++) {
@@ -161,18 +176,18 @@ namespace ConsoleRPG {
                         type = MapTile.Type.Water;
                     else if(randInt < 200) // 20% chance of tile being mountains
                         type = MapTile.Type.Mountains;
-                    else if (randInt < 300) // 10% chance of tile being a forest
+                    else if(randInt < 300) // 10% chance of tile being a forest
                         type = MapTile.Type.Desert;
-                    else if (randInt < 600) // 30% chance of tile being a forest
+                    else if(randInt < 600) // 30% chance of tile being a forest
                         type = MapTile.Type.Wood;
 
 
 
                     randInt = rand.Next(0, 1000);
                     MapTileEvent tileEvent = MapTileEvent.Nothing;
-                    if(randInt < 900) // 10% chance of monster
+                    if(randInt < 100) // 10% chance of monster
                         tileEvent = MapTileEvent.Combat;
-                    else if(randInt < 950) // 10% chance of random loot
+                    else if(randInt < 200) // 10% chance of random loot
                         tileEvent = MapTileEvent.Treasure;
 
                     tileEvent = MapTileEvent.Combat;
@@ -183,7 +198,8 @@ namespace ConsoleRPG {
         }
 
 
-        public MapTile GetTileAt(Vector2i pos) {
+        public MapTile GetTileAt(Vector2i pos)
+        {
             return GetTileAt(pos.x, pos.y);
         }
 
@@ -213,6 +229,29 @@ namespace ConsoleRPG {
                 }
             }
 
+        }
+
+        public void Draw(int playerX, int playerY)
+        {
+            var windowHandle = Util.GetConsoleHandle();
+            using(var graphics = Graphics.FromHwnd(windowHandle))
+
+                for(int y = 0; y < m_rgTiles.GetLength(0); y++) {
+                    Console.WriteLine();
+                    for(int x = 0; x < m_rgTiles.GetLength(1); x++) {
+                        // print the specific tile
+                        var tile = m_rgTiles[y, x];
+
+                        graphics.DrawImage(tile.image, x * 32, (Constants.iMapSizeY - 1) * 32 - y * 32, 32, 32);
+
+                        // hero test
+                        if(x == playerX && y == playerY) {
+                            var image1 = Properties.Resources.hero;
+                            graphics.DrawImage(image1, x * 32 + 8, (Constants.iMapSizeY - 1) * 32 - y * 32 + 8, 16, 16);
+                        }
+                    }
+                }
+            Console.SetCursorPosition(0, 52);
         }
     }
 }

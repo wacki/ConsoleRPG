@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleRPG {
     static class Constants {
-        public static readonly int iMapSizeX = 30;
+        public static readonly int iMapSizeX = 23;
         public static readonly int iMapSizeY = 20;
 
         public static readonly ConsoleColor eMapPlayerColor = ConsoleColor.Red;

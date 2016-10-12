@@ -16,7 +16,7 @@ namespace ConsoleRPG {
         
         static void Main(string[] args)
         {
-            
+            Console.SetWindowSize(95, 80);
 
             // Init message manager singleton
             MessageManager.Init();
@@ -159,7 +159,7 @@ namespace ConsoleRPG {
 
             // Instantiate and run the game
             Game oGame = new Game();
-            oGame.Run();
+            oGame.Start();
         }
     }
 }
