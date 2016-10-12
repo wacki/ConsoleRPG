@@ -14,10 +14,17 @@ namespace ConsoleRPG {
         public static readonly string eMapTileSymbol = "█";
         public static readonly string eMapPlayerSymbol = "+";
 
-
         public static readonly int iGoldAmountToWin = 1000;
         public static readonly int iPlayerStartHealth = 30;
-        
+
+        public const ConsoleColor eDefaultTextColor = ConsoleColor.White;
+        public const ConsoleColor eDefaultTextBackgroundColor = ConsoleColor.Black;
+
+        public const ConsoleColor eErrorTextColor = ConsoleColor.Red;
+        public const ConsoleColor eErrorTextBackgroundColor = ConsoleColor.DarkRed;
+
+        public const ConsoleColor eWarningTextColor = ConsoleColor.Yellow;
+        public const ConsoleColor eWarningTextBackgroundColor = ConsoleColor.Black;
     }
 
     public enum Direction {

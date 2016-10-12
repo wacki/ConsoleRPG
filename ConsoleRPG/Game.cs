@@ -8,8 +8,25 @@ namespace ConsoleRPG {
         private Map m_oMap;
         private Character m_oCharacter;
 
+        private ConsoleColor m_feedbackMsgForeground;
+        private ConsoleColor m_feedbackMsgBackground;
         private string m_sFeedbackMsg = "";
-                
+
+
+        private void PrintFeedbackMsg()
+        {
+            var prevForeground = Console.ForegroundColor;
+            var prevBackground = Console.BackgroundColor;
+
+            Console.ForegroundColor = m_feedbackMsgForeground;
+            Console.BackgroundColor = m_feedbackMsgBackground;
+
+            Console.WriteLine("\n\n" + m_sFeedbackMsg + "\n");
+
+            Console.ForegroundColor = prevForeground;
+            Console.BackgroundColor = prevBackground;
+        }
+
         public void Start()
         {
             // reset restart variable
@@ -39,8 +56,8 @@ namespace ConsoleRPG {
                 //m_oMap.Print(playerX, playerY);
                 m_oMap.Draw(playerX, playerY);
 
-                // 2. display feedback from previous action
-                Console.WriteLine("\n\n" + m_sFeedbackMsg + "\n");
+                // 2. display feedback from previous action           
+                PrintFeedbackMsg();
 
                 // 3. handle user input?
                 PrintInputOptions();
@@ -69,13 +86,27 @@ namespace ConsoleRPG {
             Util.GetInput((string input, out string output) => {
                 output = input;
 
+                // we allow for commands with arguments, so we split the string
+                char[] splitter = { ' ' };
+                string[] inputSplit = input.Split(splitter);
+
+                input = input.Trim().ToLower();
+                if(inputSplit.Length < 1)
+                    return false;
+
+                string command = inputSplit[0];
+                string payload = input.Substring(command.Length).Trim();
+
+                Console.WriteLine("COMMAND: " + command + " PAYLOAD: " + payload);
+
                 // temp input handling. This needs to be improved
-                switch(input.ToLower()) {
+                switch(command.ToLower()) {
                     case "quit": Stop(true); return true;
-                    case "look": Look(); return true;
-                    case "move": Move(); return true;
-                    case "status": Status(); return true; 
-                    case "use": Use(); return true;
+                    case "look": Look(payload); return true;
+                    case "move": Move(payload); return true;
+                    case "inventory": ShowInventory(); return true;
+                    case "status": Status(); return true;
+                    case "use": Use(payload); return true;
                 }
 
                 return false;
@@ -96,31 +127,85 @@ namespace ConsoleRPG {
         /// <summary>
         /// Called when player uses the look command
         /// </summary>
-        private void Look()
+        private void Look(string direction)
         {
-            // todo
-            var dir = SelectDirection();
+            // todo: duplicated code in the move command. move this to a function
+            Direction dir;
+            switch(direction) {
+                case "n":
+                case "north":
+                    dir = Direction.North;
+                    break;
+
+                case "s":
+                case "south":
+                    dir = Direction.South;
+                    break;
+
+                case "e":
+                case "east":
+                    dir = Direction.East;
+                    break;
+
+                case "w":
+                case "west":
+                    dir = Direction.West;
+                    break;
+
+                default:
+                    // DISPLAY ERROR MESSAGE
+                    SetFeedbackMsgError(MessageManager.instance.GetRandomMsg("invalid_look_command"));
+                    return;
+            }
+
+
             var tile = GetTileInDir(dir);
 
             if(tile != null)
-                m_sFeedbackMsg = tile.GetLookMessage();
+                SetFeedbackMsg(tile.GetLookMessage());
             else
-                m_sFeedbackMsg = "TODO: NOTHING THERE MESSAGE (map border)";
+                SetFeedbackMsg("TODO: NOTHING THERE MESSAGE (map border)");
         }
 
         /// <summary>
         /// Called when player uses the move command
         /// </summary>
-        private void Move()
+        private void Move(string direction)
         {
-            // Prompt user for direction
-            var dir = SelectDirection();
+            Direction dir;
+            switch(direction) {
+                case "n":
+                case "north":
+                    dir = Direction.North;
+                    break;
+
+                case "s":
+                case "south":
+                    dir = Direction.South;
+                    break;
+
+                case "e":
+                case "east":
+                    dir = Direction.East;
+                    break;
+
+                case "w":
+                case "west":
+                    dir = Direction.West;
+                    break;
+
+                default:
+                    // DISPLAY ERROR MESSAGE
+                    SetFeedbackMsgError(MessageManager.instance.GetRandomMsg("invalid_move_command"));
+                    return;
+            }
+
             var tile = GetTileInDir(dir);
             var dirVec = GetDirectionVector(dir);
 
             if(tile != null) {
                 m_oCharacter.Move(dirVec);
-                
+
                 m_sFeedbackMsg = tile.GetMoveMessage();
 
                 switch(tile.GetEventType()) {
@@ -130,7 +215,7 @@ namespace ConsoleRPG {
                 }
             }
             else
-                m_sFeedbackMsg = MessageManager.instance.GetRandomMsg("move_inacessible_area");
+                SetFeedbackMsg(MessageManager.instance.GetRandomMsg("move_inacessible_area"));
         }
 
         /// <summary>
@@ -145,39 +230,26 @@ namespace ConsoleRPG {
         /// <summary>
         /// Called when player uses the use command
         /// </summary>
-        private void Use()
+        private void Use(string itemString)
         {
             if(!m_oCharacter.hasItems) {
-                MessageManager.instance.PrintRandomMsg("no_items_to_use");
+                SetFeedbackMsgError(MessageManager.instance.GetRandomMsg("no_items_to_use"));
                 return;
             }
 
-            MessageManager.instance.PrintRandomMsg("choose_item_to_use");
-            m_oCharacter.PrintItemList();
 
-            int chosenItem = Util.GetInput<int>((string input, out int output) => {
-                output = -1;
+            int chosenItem;
 
-                if(input.ToLower() == "abort")
-                    return true;                
-                if(!int.TryParse(Util.GetInput(), out output))
-                    return false;
-                if(output < 0 || m_oCharacter.numItems < output)
-                    return false;
-
-                return true;
-            }, "Enter a number to choose an item, or type 'abort' to abort the action.");
-                
-            if(chosenItem != -1) {
-                m_oCharacter.Use(chosenItem);
+            if(!int.TryParse(itemString, out chosenItem)) {
+                SetFeedbackMsgError(MessageManager.instance.GetRandomMsg("you_dont_have_that_item"));
             }
-
+            
+            m_sFeedbackMsg = m_oCharacter.Use(chosenItem);            
         }
 
-        private Item SelectItemToUse()
+        private void ShowInventory()
         {
-            // todo
-            return null;
+            SetFeedbackMsg(m_oCharacter.GetItemListString());
         }
 
 
@@ -186,6 +258,7 @@ namespace ConsoleRPG {
         /// </summary>
         private void Combat(MapTile tile)
         {
+            Console.Clear();
             m_sFeedbackMsg = CombatManager.fight(m_oCharacter, tile);
 
             DeathCheck();
@@ -214,8 +287,8 @@ namespace ConsoleRPG {
             if(m_oCharacter.health <= 0) {
                 Console.WriteLine("You were slain on your journey.");
                 m_bRestart = Util.YesNoPrompt();
-                
-                Stop(false);                    
+
+                Stop(false);
             }
         }
 
@@ -224,7 +297,7 @@ namespace ConsoleRPG {
             if(m_oCharacter.gold >= Constants.iGoldAmountToWin) {
                 Console.WriteLine("You win the game. Wanna play again?");
                 m_bRestart = Util.YesNoPrompt();
-                
+
                 Stop(false);
             }
         }
@@ -263,6 +336,23 @@ namespace ConsoleRPG {
 
         }
 
+
+        private void SetFeedbackMsgError(string msg)
+        {
+            SetFeedbackMsg(msg, Constants.eErrorTextColor, Constants.eErrorTextBackgroundColor);
+        }
+
+        private void SetFeedbackMsgWarning(string msg)
+        {
+            SetFeedbackMsg(msg, Constants.eWarningTextColor, Constants.eWarningTextBackgroundColor);
+        }
+
+        private void SetFeedbackMsg(string msg, ConsoleColor foreground = Constants.eDefaultTextColor, ConsoleColor background = Constants.eDefaultTextBackgroundColor)
+        {
+            m_sFeedbackMsg = msg;
+            m_feedbackMsgForeground = foreground;
+            m_feedbackMsgBackground = background;
+        }
 
 
     }

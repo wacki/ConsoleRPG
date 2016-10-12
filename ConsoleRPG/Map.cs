@@ -188,9 +188,7 @@ namespace ConsoleRPG {
                     if(randInt < 100) // 10% chance of monster
                         tileEvent = MapTileEvent.Combat;
                     else if(randInt < 200) // 10% chance of random loot
-                        tileEvent = MapTileEvent.Treasure;
-
-                    tileEvent = MapTileEvent.Combat;
+                        tileEvent = MapTileEvent.Treasure;                    
 
                     m_rgTiles[y, x] = new MapTile(type, tileEvent);
                 }

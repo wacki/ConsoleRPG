@@ -63,22 +63,27 @@ namespace ConsoleRPG {
             m_oInventory.Add(item);
         }
 
-        public void PrintItemList()
+        public string GetItemListString()
         {
+            string result = "";
             for(int i = 0; i < m_oInventory.Count; i++) {
                 var item = m_oInventory[i];
-                Console.Write("(" + i + ") " + item.name + " | ");
+                result += "(" + i + ") " + item.name + " | ";
             }
-            Console.WriteLine();
+            result += "\n";
+            return result;
         }
 
-        public void Use(int itemIndex)
+        public string Use(int itemIndex)
         {
             var item = m_oInventory[itemIndex];
+            
+            // for now we just have health potion stuff working
+            m_iHealth += item.healthBonus;
+            m_oInventory.Remove(item);
 
             // todo: sanity check
-            MessageManager.instance.PrintRandomMsg("character_used_item", item.name);
-            m_iHealth += item.healthBonus;
+            return MessageManager.instance.GetRandomMsg("character_used_item", item.name);
         }
 
         public string GetStatusString()
