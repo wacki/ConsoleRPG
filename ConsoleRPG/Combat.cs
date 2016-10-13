@@ -22,26 +22,26 @@ namespace ConsoleRPG
             iPlayerRoll += character.baseAttack;
             iMonsterRoll += monster.baseAttack;
             return damage(iPlayerRoll, iMonsterRoll, character, monster);
-            
+
         }
         //determans then damges the loser of the fight
         private static bool damage(int iPlayerDamage, int iMonsterDamage, Character character, Monster monster)
         {
             int i_totalDamage = iPlayerDamage - iMonsterDamage;
-            if(i_totalDamage > 0)
+            if (i_totalDamage > 0)
             {
                 MessageManager.instance.PrintRandomMsg("player_attack_sucsess");
                 Console.WriteLine("You delt {0} dammage to the {1}", i_totalDamage, monster.name);
                 monster.health -= i_totalDamage;
-               return IsAlive(true, character, monster);
+                return IsAlive(true, character, monster);
             }
             else
             {
                 MessageManager.instance.PrintRandomMsg("player_attack_failure");
-               i_totalDamage = Math.Abs(i_totalDamage);
+                i_totalDamage = Math.Abs(i_totalDamage);
                 Console.WriteLine("The {1} delt {0} dammage to you!", i_totalDamage, monster.name);
-               character.health -= i_totalDamage;
-               return IsAlive(false, character, monster);
+                character.health -= i_totalDamage;
+                return IsAlive(false, character, monster);
             }
         }
 
@@ -64,7 +64,7 @@ namespace ConsoleRPG
         //check if anyone has died
         private static bool IsAlive(bool bIsMonster, Character character, Monster monster)
         {
-            if(bIsMonster == true)
+            if (bIsMonster == true)
             {
                 if (monster.health > 0)
                 {
@@ -81,7 +81,7 @@ namespace ConsoleRPG
                 else { return false; }
             }
         }
-        
+
 
         //the player wants to run away
         private static bool run(Character character, Monster monster)
@@ -99,13 +99,13 @@ namespace ConsoleRPG
                 i_totalDamage = Math.Abs(i_totalDamage);
                 Console.WriteLine("The {1} delt {0} dammage to you! But", i_totalDamage, monster.name);
                 character.health -= i_totalDamage;
-               IsAlive(false, character, monster);
+                IsAlive(false, character, monster);
                 return false;
             }
             else
             {
                 Console.WriteLine("You escaped the {0} unscaved and", monster.name);
-                return false;       
+                return false;
             }
 
         }
@@ -114,14 +114,15 @@ namespace ConsoleRPG
         {
             Monster monster = tile.GetMonster();
             bool bCombatActive = true;
-            
-            
+
+
             //("What would you like to do?")
-           
+
             while (bCombatActive == true)
             {
-                Console.SetCursorPosition(0,0);
+                Console.SetCursorPosition(0, 0);
                 Draw(tile);
+                DrawFight(monster);
                 Console.SetCursorPosition(0, 54);
                 Console.WriteLine("You have encountered a {0}", monster.name);
                 Console.SetCursorPosition(0, 55);
@@ -129,22 +130,22 @@ namespace ConsoleRPG
                 Console.SetCursorPosition(0, 55);
                 BattleMenu(character, monster);
                 Console.WriteLine("Attack | Run away");
-                
+
                 Util.GetInput((string input, out string output) =>
                 {
                     Console.SetCursorPosition(0, 58);
                     Util.ClearCurrentConsoleLine();
                     Console.SetCursorPosition(0, 59);
                     output = input;
-                    
+
 
                     // temp input handling. This needs to be improved
                     switch (input.ToLower())
                     {
-                        
+
                         case "attack": bCombatActive = attack(character, monster); return true;
                         case "run": bCombatActive = run(character, monster); return true;
-                            
+
                     }
 
                     return false;
@@ -167,31 +168,31 @@ namespace ConsoleRPG
                 // if we win and monster is dead do this
                 tile.eTileEvent = MapTileEvent.Nothing;
                 MessageManager.instance.GetRandomMsg("user_combat_victory");
-               character.gold += dropLoot();
+                character.gold += dropLoot();
                 //In case player wins combat
                 return MessageManager.instance.GetRandomMsg("user_combat_victory");
             }
-            
+
         }
 
         public static void BattleMenu(Character character, Monster monster)
         {
-            
+
             string s_PlayerHealth = "";
             string s_MonstorHealth = "";
             int i_Monster = monster.health;
             for (int i = 0; i < 1; i++)
             {
-                
+
                 Util.ConsoleWriteCol(ConsoleColor.Yellow, " ");
                 for (i = 0; i < character.health; i++)
                 {
-                    
-                    Util.ConsoleWriteCol(ConsoleColor.Red,ConsoleColor.Red, " ");
+
+                    Util.ConsoleWriteCol(ConsoleColor.Red, ConsoleColor.Red, " ");
                 }
                 s_PlayerHealth = character.health.ToString();
                 Util.ConsoleWriteCol(ConsoleColor.Yellow, s_PlayerHealth);
-                 int space = (34 - i) + (i_Monster - monster.health);
+                int space = (34 - i) + (i_Monster - monster.health);
                 for (i = 0; i < space; i++)
                 {
                     Console.Write(" ");
@@ -204,14 +205,14 @@ namespace ConsoleRPG
                     Util.ConsoleWriteCol(ConsoleColor.Red, ConsoleColor.Red, " ");
                 }
                 Console.WriteLine();
-                
+
             }
         }
 
         private static void Draw(MapTile battleZone)
         {
-            
 
+            Console.SetCursorPosition(0, 0);
             var windowHandle = Util.GetConsoleHandle();
             using (var graphics = Graphics.FromHwnd(windowHandle))
 
@@ -225,6 +226,18 @@ namespace ConsoleRPG
 
                     }
                 }
+
+        }
+
+        private static void DrawFight(Monster monster)
+        {
+            Console.SetCursorPosition(0, 0);
+            var windowHandle = Util.GetConsoleHandle();
+            using (var graphics = Graphics.FromHwnd(windowHandle))
+                graphics.DrawImage(monster.image, 0, 0, 640, 640);
+
+
+
             Console.SetCursorPosition(0, 55);
         }
     }

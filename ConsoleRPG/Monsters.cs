@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace ConsoleRPG {
         }
         int m_iBaseAttack;
         public int baseAttack { get { return m_iBaseAttack; } }
-
+        public Bitmap image;
 
         int m_iMonsterSelector;
         int m_iSpecialMonster;
@@ -128,7 +129,7 @@ namespace ConsoleRPG {
                         m_sName = "Goblin";
                         m_iHealth = 4;
                         m_iBaseAttack = 3;
-
+                        image = Properties.Resources.Goblin;
                         break;
                     }
 
@@ -137,7 +138,7 @@ namespace ConsoleRPG {
                         m_sName = "Orc";
                         m_iHealth = 8;
                         m_iBaseAttack = 6;
-
+                        image = Properties.Resources.Orc;
                         break;
                     }
 
@@ -146,7 +147,7 @@ namespace ConsoleRPG {
                         m_sName = "Wolf";
                         m_iHealth = 6;
                         m_iBaseAttack = 5;
-
+                        image = Properties.Resources.Wolf;
                         break;
                     }
 
@@ -155,7 +156,7 @@ namespace ConsoleRPG {
                         m_sName = "Giant Spider";
                         m_iHealth = 12;
                         m_iBaseAttack = 6;
-
+                        image = Properties.Resources.Spider;
                         break;
                     }
 
@@ -164,7 +165,7 @@ namespace ConsoleRPG {
                         m_sName = "Lizardfolk";
                         m_iHealth = 10;
                         m_iBaseAttack = 7;
-
+                        image = Properties.Resources.Lizardfolk;
                         break;
                     }
 
@@ -173,7 +174,7 @@ namespace ConsoleRPG {
                         m_sName = "Alligator";
                         m_iHealth = 14;
                         m_iBaseAttack = 4;
-
+                        image = Properties.Resources.Alligator;
                         break;
                     }
 
@@ -182,7 +183,7 @@ namespace ConsoleRPG {
                         m_sName = "Wyvern";
                         m_iHealth = 16;
                         m_iBaseAttack = 8;
-
+                        image = Properties.Resources.Wyvern;
                         break;
                     }
 
@@ -191,7 +192,7 @@ namespace ConsoleRPG {
                         m_sName = "Centaur";
                         m_iHealth = 10;
                         m_iBaseAttack = 6;
-
+                        image = Properties.Resources.Centaur;
                         break;
                     }
             }
