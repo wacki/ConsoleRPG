@@ -128,7 +128,7 @@ namespace ConsoleRPG
                 Util.ClearCurrentConsoleLine();
                 Console.SetCursorPosition(0, 55);
                 BattleMenu(character, monster);
-                Console.WriteLine("<1>Attack <2>Run away");
+                Console.WriteLine("Attack | Run away");
                 
                 Util.GetInput((string input, out string output) =>
                 {
@@ -142,8 +142,8 @@ namespace ConsoleRPG
                     switch (input.ToLower())
                     {
                         
-                        case "1": bCombatActive = attack(character, monster); return true;
-                        case "2": bCombatActive = run(character, monster); return true;
+                        case "attack": bCombatActive = attack(character, monster); return true;
+                        case "run": bCombatActive = run(character, monster); return true;
                             
                     }
 
