@@ -25,6 +25,7 @@ namespace ConsoleRPG
             m_HealthBonus = healthBonus;
             m_BaseAttackBonus = baseAttackBonus;
         }
+
     }
 
     //class HealthPotion: Item

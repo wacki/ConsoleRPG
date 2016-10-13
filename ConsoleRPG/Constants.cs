@@ -25,6 +25,10 @@ namespace ConsoleRPG {
 
         public const ConsoleColor eWarningTextColor = ConsoleColor.Yellow;
         public const ConsoleColor eWarningTextBackgroundColor = ConsoleColor.Black;
+
+        public const float fMonsterSpawnChance = 0.15f;
+        public const float fTreasureSpawnChance = 0.1f;
+        
     }
 
     public enum Direction {

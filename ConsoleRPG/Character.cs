@@ -24,8 +24,8 @@ namespace ConsoleRPG {
         private int m_fGold;
         public int gold
         {
-            get { return m_fBaseAttack; }
-            set { m_fBaseAttack = value; }
+            get { return m_fGold; }
+            set { m_fGold = value; }
         }
         public bool hasItems
         {

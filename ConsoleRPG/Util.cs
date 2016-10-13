@@ -135,6 +135,15 @@ namespace ConsoleRPG {
         [DllImport("kernel32.dll", EntryPoint = "GetConsoleWindow", SetLastError = true)]
         public static extern IntPtr GetConsoleHandle();
 
+        // src: http://stackoverflow.com/a/8946847
+        public static void ClearCurrentConsoleLine()
+        {
+            int currentLineCursor = Console.CursorTop;
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, currentLineCursor);
+        }
+
     }
 
 

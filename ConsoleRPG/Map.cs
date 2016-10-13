@@ -102,6 +102,7 @@ namespace ConsoleRPG {
                 case Type.Mountains: areaString = "mountains"; break;
                 case Type.Water: areaString = "water"; break;
                 case Type.Wood: areaString = "woods"; break;
+                case Type.Desert: areaString = "desert"; break;
             }
 
 
@@ -185,9 +186,13 @@ namespace ConsoleRPG {
 
                     randInt = rand.Next(0, 1000);
                     MapTileEvent tileEvent = MapTileEvent.Nothing;
-                    if(randInt < 100) // 10% chance of monster
+
+                    int monsterChance = (int)(Constants.fMonsterSpawnChance * 1000);
+                    int treasureChance = monsterChance + (int)(Constants.fTreasureSpawnChance * 1000);
+
+                    if (randInt < monsterChance) // 10% chance of monster
                         tileEvent = MapTileEvent.Combat;
-                    else if(randInt < 200) // 10% chance of random loot
+                    else if(randInt < treasureChance) // 10% chance of random loot
                         tileEvent = MapTileEvent.Treasure;                    
 
                     m_rgTiles[y, x] = new MapTile(type, tileEvent);

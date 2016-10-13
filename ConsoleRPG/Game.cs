@@ -8,8 +8,8 @@ namespace ConsoleRPG {
         private Map m_oMap;
         private Character m_oCharacter;
 
-        private ConsoleColor m_feedbackMsgForeground;
-        private ConsoleColor m_feedbackMsgBackground;
+        private ConsoleColor m_feedbackMsgForeground = Constants.eDefaultTextColor;
+        private ConsoleColor m_feedbackMsgBackground = Constants.eDefaultTextBackgroundColor;
         private string m_sFeedbackMsg = "";
 
 
