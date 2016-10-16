@@ -6,6 +6,8 @@ namespace ConsoleRPG {
 
     class Util {
 
+        //Utillity Methods to be used accros the program for ease of use and speed
+
         public delegate bool CustomValidateFuncCallback<T>(string input, out T output);
 
         static public int GetIntegerInput()

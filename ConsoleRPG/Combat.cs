@@ -11,53 +11,53 @@ namespace ConsoleRPG
     static class CombatManager
     {
         //adds a random number for use across the program
-        static Random rRandomNumber = new Random();
+        static Random s_RandomNumber = new Random();
         //When a object (ie Player or Monster) attack another object
-        private static bool attack(Character character, Monster monster)
+        private static bool Attack(Character character, Monster monster)
         {
             MessageManager.instance.PrintRandomMsg("attack_creature");
-            int iPlayerRoll = roll() + roll();
+            int iPlayerRoll = Roll() + Roll();
             MessageManager.instance.PrintRandomMsg("creature_attack");
-            int iMonsterRoll = roll();
-            iPlayerRoll += character.baseAttack;
-            iMonsterRoll += monster.baseAttack;
-            return damage(iPlayerRoll, iMonsterRoll, character, monster);
+            int iMonsterRoll = Roll();
+            iPlayerRoll += character.iBaseAttack;
+            iMonsterRoll += monster.iBaseAttack;
+            return Damage(iPlayerRoll, iMonsterRoll, character, monster);
 
         }
         //determans then damges the loser of the fight
-        private static bool damage(int iPlayerDamage, int iMonsterDamage, Character character, Monster monster)
+        private static bool Damage(int iPlayerDamage, int iMonsterDamage, Character character, Monster monster)
         {
-            int i_totalDamage = iPlayerDamage - iMonsterDamage;
-            if (i_totalDamage > 0)
+            int iTotalDamage = iPlayerDamage - iMonsterDamage;
+            if (iTotalDamage > 0)
             {
                 MessageManager.instance.PrintRandomMsg("player_attack_sucsess");
-                Console.WriteLine("You delt {0} dammage to the {1}", i_totalDamage, monster.name);
-                monster.health -= i_totalDamage;
+                Console.WriteLine("You delt {0} dammage to the {1}", iTotalDamage, monster.sName);
+                monster.iHealth -= iTotalDamage;
                 return IsAlive(true, character, monster);
             }
             else
             {
                 MessageManager.instance.PrintRandomMsg("player_attack_failure");
-                i_totalDamage = Math.Abs(i_totalDamage);
-                Console.WriteLine("The {1} delt {0} dammage to you!", i_totalDamage, monster.name);
-                character.health -= i_totalDamage;
+                iTotalDamage = Math.Abs(iTotalDamage);
+                Console.WriteLine("The {1} delt {0} dammage to you!", iTotalDamage, monster.sName);
+                character.iHealth -= iTotalDamage;
                 return IsAlive(false, character, monster);
             }
         }
 
         //If the monster is killed will it drop loot?
-        private static int dropLoot()
+        private static int DropLoot()
         {
-            int i_RanNumber = rRandomNumber.Next(100, 500);
-            Console.WriteLine("You found {0} gold on the monsters corpse! continue?", i_RanNumber);
+            int iRanNumber = s_RandomNumber.Next(100, 500);
+            Console.WriteLine("You found {0} gold on the monsters corpse! continue?", iRanNumber);
             Console.ReadLine();
-            return i_RanNumber;
+            return iRanNumber;
         }
         //the roll for the attack
-        private static int roll()
+        private static int Roll()
         {
             int iRanNumber;
-            iRanNumber = rRandomNumber.Next(1, 7);
+            iRanNumber = s_RandomNumber.Next(1, 7);
 
             return iRanNumber;
         }
@@ -66,7 +66,7 @@ namespace ConsoleRPG
         {
             if (bIsMonster == true)
             {
-                if (monster.health > 0)
+                if (monster.iHealth > 0)
                 {
                     return true;
                 }
@@ -74,7 +74,7 @@ namespace ConsoleRPG
             }
             else
             {
-                if (character.health > 0)
+                if (character.iHealth > 0)
                 {
                     return true;
                 }
@@ -84,33 +84,33 @@ namespace ConsoleRPG
 
 
         //the player wants to run away
-        private static bool run(Character character, Monster monster)
+        private static bool Run(Character character, Monster monster)
         {
             Console.WriteLine("You attempt to flee");
-            int iPlayerDamage = roll();
+            int iPlayerDamage = Roll();
             MessageManager.instance.PrintRandomMsg("creature_attack");
-            int iMonsterDamage = roll();
-            iPlayerDamage += character.baseAttack;
-            iMonsterDamage += monster.baseAttack;
-            int i_totalDamage = iMonsterDamage - iPlayerDamage;
-            if (i_totalDamage > 0)
+            int iMonsterDamage = Roll();
+            iPlayerDamage += character.iBaseAttack;
+            iMonsterDamage += monster.iBaseAttack;
+            int iTotalDamage = iMonsterDamage - iPlayerDamage;
+            if (iTotalDamage > 0)
             {
                 MessageManager.instance.PrintRandomMsg("player_attack_failure");
-                i_totalDamage = Math.Abs(i_totalDamage);
-                Console.WriteLine("The {1} delt {0} dammage to you! But", i_totalDamage, monster.name);
-                character.health -= i_totalDamage;
+                iTotalDamage = Math.Abs(iTotalDamage);
+                Console.WriteLine("The {1} delt {0} dammage to you! But", iTotalDamage, monster.sName);
+                character.iHealth -= iTotalDamage;
                 IsAlive(false, character, monster);
                 return false;
             }
             else
             {
-                Console.WriteLine("You escaped the {0} unscaved and", monster.name);
+                Console.WriteLine("You escaped the {0} unscaved and", monster.sName);
                 return false;
             }
 
         }
         //when the fight occurs
-        public static string fight(Character character, MapTile tile)
+        public static string Fight(Character character, MapTile tile)
         {
             Monster monster = tile.GetMonster();
             bool bCombatActive = true;
@@ -120,11 +120,15 @@ namespace ConsoleRPG
 
             while (bCombatActive == true)
             {
+                //sets Cursor at top
                 Console.SetCursorPosition(0, 0);
-                Draw(tile);
+                //draws the background and fight
+                DrawBackground(tile);
                 DrawFight(monster);
+
+                //sets the console to beyond the battle screen and print the combat inputs
                 Console.SetCursorPosition(0, 54);
-                Console.WriteLine("You have encountered a {0}", monster.name);
+                Console.WriteLine("You have encountered a {0}", monster.sName);
                 Console.SetCursorPosition(0, 55);
                 Util.ClearCurrentConsoleLine();
                 Console.SetCursorPosition(0, 55);
@@ -139,12 +143,12 @@ namespace ConsoleRPG
                     output = input;
 
 
-                    // temp input handling. This needs to be improved
+                    // Imput handeling for combat
                     switch (input.ToLower())
                     {
 
-                        case "attack": bCombatActive = attack(character, monster); return true;
-                        case "run": bCombatActive = run(character, monster); return true;
+                        case "attack": bCombatActive = Attack(character, monster); return true;
+                        case "run": bCombatActive = Run(character, monster); return true;
 
                     }
 
@@ -152,54 +156,56 @@ namespace ConsoleRPG
 
                 }, MessageManager.instance.GetRandomMsg("user_command_invalid"));
             }
-
-            if (monster.health > 0)
+            //if the player leaves combat and is still alive have them flee
+            if (monster.iHealth > 0)
             {
                 Console.ReadLine();
                 return MessageManager.instance.GetRandomMsg("user_combat_flee");
             }
             else
             {
+                //sets the position of the Cusor inorder to correct the Battle menu after killing the monster
                 Console.SetCursorPosition(0, 55);
                 Util.ClearCurrentConsoleLine();
                 Console.SetCursorPosition(0, 55);
                 BattleMenu(character, monster);
+                //changes to after the attack and information to print victory
                 Console.SetCursorPosition(0, 63);
                 // if we win and monster is dead do this
                 tile.eTileEvent = MapTileEvent.Nothing;
                 MessageManager.instance.GetRandomMsg("user_combat_victory");
-                character.gold += dropLoot();
+                character.iGold += DropLoot();
                 //In case player wins combat
                 return MessageManager.instance.GetRandomMsg("user_combat_victory");
             }
 
         }
-
+//Controls the Health screen of player and the Monster during the fight
         public static void BattleMenu(Character character, Monster monster)
         {
 
-            string s_PlayerHealth = "";
-            string s_MonstorHealth = "";
-            int i_Monster = monster.health;
+            string sPlayerHealth = "";
+            string sMonstorHealth = "";
+            int iMonster = monster.iHealth;
             for (int i = 0; i < 1; i++)
             {
 
                 Util.ConsoleWriteCol(ConsoleColor.Yellow, " ");
-                for (i = 0; i < character.health; i++)
+                for (i = 0; i < character.iHealth; i++)
                 {
 
                     Util.ConsoleWriteCol(ConsoleColor.Red, ConsoleColor.Red, " ");
                 }
-                s_PlayerHealth = character.health.ToString();
-                Util.ConsoleWriteCol(ConsoleColor.Yellow, s_PlayerHealth);
-                int space = (34 - i) + (i_Monster - monster.health);
+                sPlayerHealth = character.iHealth.ToString();
+                Util.ConsoleWriteCol(ConsoleColor.Yellow, sPlayerHealth);
+                int space = (34 - i) + (iMonster - monster.iHealth);
                 for (i = 0; i < space; i++)
                 {
                     Console.Write(" ");
                 }
-                s_MonstorHealth = monster.health.ToString();
-                Util.ConsoleWriteCol(ConsoleColor.Yellow, s_MonstorHealth);
-                for (i = 0; i < monster.health; i++)
+                sMonstorHealth = monster.iHealth.ToString();
+                Util.ConsoleWriteCol(ConsoleColor.Yellow, sMonstorHealth);
+                for (i = 0; i < monster.iHealth; i++)
                 {
 
                     Util.ConsoleWriteCol(ConsoleColor.Red, ConsoleColor.Red, " ");
@@ -208,8 +214,8 @@ namespace ConsoleRPG
 
             }
         }
-
-        private static void Draw(MapTile battleZone)
+// Draws the Backgrounds for the combat
+        private static void DrawBackground(MapTile battleZone)
         {
 
             Console.SetCursorPosition(0, 0);
@@ -228,13 +234,13 @@ namespace ConsoleRPG
                 }
 
         }
-
+//Draws the Player vs the Selected monster 
         private static void DrawFight(Monster monster)
         {
             Console.SetCursorPosition(0, 0);
             var windowHandle = Util.GetConsoleHandle();
             using (var graphics = Graphics.FromHwnd(windowHandle))
-                graphics.DrawImage(monster.image, 0, 0, 640, 640);
+                graphics.DrawImage(monster.image, 0, 0, 720, 720);
 
 
 

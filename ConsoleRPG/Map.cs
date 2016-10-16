@@ -12,6 +12,7 @@ namespace ConsoleRPG {
     /// <summary>
     /// Holds information about a specific map tile
     /// </summary>
+    /// map tile type
     public class MapTile {
         public enum Type {
             Plains,
@@ -27,6 +28,7 @@ namespace ConsoleRPG {
         private Bitmap m_bitmap;
         public Bitmap image { get { return m_bitmap; } }
 
+        //colour type for inital map
         public ConsoleColor color
         {
             get
@@ -42,7 +44,7 @@ namespace ConsoleRPG {
             }
         }
 
-
+        // tile resource for inital map
         public MapTile(Type type, MapTileEvent tileEvent)
         {
             m_eType = type;
@@ -58,11 +60,13 @@ namespace ConsoleRPG {
 
         }
 
+        //Printing of the original map
         public void Print()
         {
             Util.ConsoleWriteCol(color, Constants.eMapBackgroundColor, Constants.eMapTileSymbol);
         }
 
+        //Message for when the player uses the look comand and notifies what each tile contains per tile type
         public string GetLookMessage()
         {
             string areaString = "";
@@ -86,6 +90,7 @@ namespace ConsoleRPG {
             return MessageManager.instance.GetRandomMsg("map_look_" + eventTypeString, areaString);
         }
 
+        //when the player moves looks at the tile and finds if the player is in combat or finds treasure and the map type
         public string GetMoveMessage()
         {
             string areaString = "";
@@ -152,17 +157,20 @@ namespace ConsoleRPG {
     ///    | oooooooooooo
     /// 
     /// </summary>
+    /// 
+    //building of the map
     class Map {
         private MapTile[,] m_rgTiles;
         private int m_iSizeX;
         private int m_iSizeY;
 
-        public Map(int sizeX, int sizeY)
+        public Map(int iSizeX, int iSizeY)
         {
-            m_rgTiles = new MapTile[sizeY, sizeX];
+            m_rgTiles = new MapTile[iSizeY, iSizeX];
             Generate();
         }
 
+        //generation of the map tile and the percent chance of tile generation
         private void Generate()
         {
             Random rand = new Random();
@@ -187,12 +195,12 @@ namespace ConsoleRPG {
                     randInt = rand.Next(0, 1000);
                     MapTileEvent tileEvent = MapTileEvent.Nothing;
 
-                    int monsterChance = (int)(Constants.fMonsterSpawnChance * 1000);
-                    int treasureChance = monsterChance + (int)(Constants.fTreasureSpawnChance * 1000);
+                    int iMonsterChance = (int)(Constants.fMonsterSpawnChance * 1000);
+                    int iTreasureChance = iMonsterChance + (int)(Constants.fTreasureSpawnChance * 1000);
 
-                    if (randInt < monsterChance) // 10% chance of monster
+                    if (randInt < iMonsterChance) // 10% chance of monster
                         tileEvent = MapTileEvent.Combat;
-                    else if(randInt < treasureChance) // 10% chance of random loot
+                    else if(randInt < iTreasureChance) // 10% chance of random loot
                         tileEvent = MapTileEvent.Treasure;                    
 
                     m_rgTiles[y, x] = new MapTile(type, tileEvent);
@@ -200,7 +208,7 @@ namespace ConsoleRPG {
             }
         }
 
-
+        //get tiles at possition
         public MapTile GetTileAt(Vector2i pos)
         {
             return GetTileAt(pos.x, pos.y);
@@ -215,7 +223,8 @@ namespace ConsoleRPG {
             return m_rgTiles[y, x];
         }
 
-        public void Print(int playerX, int playerY)
+        //print out the map
+        public void Print(int iPlayerX, int iPlayerY)
         {
             for(int y = m_rgTiles.GetLength(0) - 1; y >= 0; y--) {
                 Console.WriteLine();
@@ -223,7 +232,7 @@ namespace ConsoleRPG {
                     // print the specific tile
                     var tile = m_rgTiles[y, x];
 
-                    if(playerX == x && playerY == y) {
+                    if(iPlayerX == x && iPlayerY == y) {
                         Util.ConsoleWriteCol(Constants.eMapPlayerColor, tile.color, Constants.eMapPlayerSymbol);
                         continue;
                     }
@@ -234,6 +243,7 @@ namespace ConsoleRPG {
 
         }
 
+        //Draws the atctual image of the primary map
         public void Draw(int playerX, int playerY)
         {
             var windowHandle = Util.GetConsoleHandle();

@@ -10,15 +10,15 @@ namespace ConsoleRPG {
 
         //Define variables for the defining what the monsters are
         string m_sName;
-        public string name { get { return m_sName; } }
+        public string sName { get { return m_sName; } }
         int m_iHealth;
-        public int health
+        public int iHealth
         {
             get { return m_iHealth; }
             set { m_iHealth = value; }
         }
         int m_iBaseAttack;
-        public int baseAttack { get { return m_iBaseAttack; } }
+        public int iBaseAttack { get { return m_iBaseAttack; } }
         public Bitmap image;
 
         int m_iMonsterSelector;

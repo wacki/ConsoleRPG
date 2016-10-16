@@ -12,7 +12,7 @@ namespace ConsoleRPG {
         private ConsoleColor m_feedbackMsgBackground = Constants.eDefaultTextBackgroundColor;
         private string m_sFeedbackMsg = "";
 
-
+        //Ensures feedback messages are default then changes back to previus setings
         private void PrintFeedbackMsg()
         {
             var prevForeground = Console.ForegroundColor;
@@ -51,10 +51,10 @@ namespace ConsoleRPG {
                 Console.Clear();
 
                 // 1. display map
-                int playerX = m_oCharacter.coordinates.x;
-                int playerY = m_oCharacter.coordinates.y;
+                int iPlayerX = m_oCharacter.coordinates.x;
+                int iPlayerY = m_oCharacter.coordinates.y;
                 //m_oMap.Print(playerX, playerY);
-                m_oMap.Draw(playerX, playerY);
+                m_oMap.Draw(iPlayerX, iPlayerY);
 
                 // 2. display feedback from previous action           
                 PrintFeedbackMsg();
@@ -67,10 +67,10 @@ namespace ConsoleRPG {
             if(m_bRestart)
                 Start();
         }
-
-        public void Stop(bool prompt = false)
+        //Allow player tto end game and quit or restart
+        public void Stop(bool bPrompt = false)
         {
-            if(prompt) {
+            if(bPrompt) {
                 MessageManager.instance.PrintRandomMsg("quit_game_prompt");
                 if(!Util.YesNoPrompt())
                     return;
@@ -79,34 +79,35 @@ namespace ConsoleRPG {
             m_bRunning = false;
         }
 
+        //Handles primary input in the main map screen
         private void HandleUserInput()
         {
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             // get user input for command
-            Util.GetInput((string input, out string output) => {
-                output = input;
+            Util.GetInput((string sInput, out string sOutput) => {
+                sOutput = sInput;
 
                 // we allow for commands with arguments, so we split the string
-                char[] splitter = { ' ' };
-                string[] inputSplit = input.Split(splitter);
+                char[] shrgSplitter = { ' ' };
+                string[] srgInputSplit = sInput.Split(shrgSplitter);
 
-                input = input.Trim().ToLower();
-                if(inputSplit.Length < 1)
+                sInput = sInput.Trim().ToLower();
+                if(srgInputSplit.Length < 1)
                     return false;
 
-                string command = inputSplit[0];
-                string payload = input.Substring(command.Length).Trim();
+                string sCommand = srgInputSplit[0];
+                string sPayload = sInput.Substring(sCommand.Length).Trim();
 
-                Console.WriteLine("COMMAND: " + command + " PAYLOAD: " + payload);
+                Console.WriteLine("COMMAND: " + sCommand + " PAYLOAD: " + sPayload);
 
                 // temp input handling. This needs to be improved
-                switch(command.ToLower()) {
+                switch(sCommand.ToLower()) {
                     case "quit": Stop(true); return true;
-                    case "look": Look(payload); return true;
-                    case "move": Move(payload); return true;
+                    case "look": Look(sPayload); return true;
+                    case "move": Move(sPayload); return true;
                     case "inventory": ShowInventory(); return true;
                     case "status": Status(); return true;
-                    case "use": Use(payload); return true;
+                    case "use": Use(sPayload); return true;
                 }
 
                 return false;
@@ -127,11 +128,11 @@ namespace ConsoleRPG {
         /// <summary>
         /// Called when player uses the look command
         /// </summary>
-        private void Look(string direction)
+        private void Look(string sDirection)
         {
             // todo: duplicated code in the move command. move this to a function
             Direction dir;
-            switch(direction) {
+            switch(sDirection) {
                 case "n":
                 case "north":
                     dir = Direction.North;
@@ -170,10 +171,10 @@ namespace ConsoleRPG {
         /// <summary>
         /// Called when player uses the move command
         /// </summary>
-        private void Move(string direction)
+        private void Move(string sDirection)
         {
             Direction dir;
-            switch(direction) {
+            switch(sDirection) {
                 case "n":
                 case "north":
                     dir = Direction.North;
@@ -230,7 +231,7 @@ namespace ConsoleRPG {
         /// <summary>
         /// Called when player uses the use command
         /// </summary>
-        private void Use(string itemString)
+        private void Use(string sItemString)
         {
             if(!m_oCharacter.hasItems) {
                 SetFeedbackMsgError(MessageManager.instance.GetRandomMsg("no_items_to_use"));
@@ -238,13 +239,13 @@ namespace ConsoleRPG {
             }
 
 
-            int chosenItem;
+            int iChosenItem;
 
-            if(!int.TryParse(itemString, out chosenItem)) {
+            if(!int.TryParse(sItemString, out iChosenItem)) {
                 SetFeedbackMsgError(MessageManager.instance.GetRandomMsg("you_dont_have_that_item"));
             }
             
-            m_sFeedbackMsg = m_oCharacter.Use(chosenItem);            
+            m_sFeedbackMsg = m_oCharacter.Use(iChosenItem);            
         }
 
         private void ShowInventory()
@@ -259,7 +260,7 @@ namespace ConsoleRPG {
         private void Combat(MapTile tile)
         {
             Console.Clear();
-            m_sFeedbackMsg = CombatManager.fight(m_oCharacter, tile);
+            m_sFeedbackMsg = CombatManager.Fight(m_oCharacter, tile);
 
             DeathCheck();
             WinCheck();
@@ -281,20 +282,21 @@ namespace ConsoleRPG {
         }
 
         #endregion
-
+        //Checks if the players health is at 0 and if so promps game end
         private void DeathCheck()
         {
-            if(m_oCharacter.health <= 0) {
+            if(m_oCharacter.iHealth <= 0) {
                 Console.WriteLine("You were slain on your journey.");
                 m_bRestart = Util.YesNoPrompt();
 
                 Stop(false);
             }
         }
-
+        
+        //Checks if the player has recived enought gold to win
         private void WinCheck()
         {
-            if(m_oCharacter.gold >= Constants.iGoldAmountToWin) {
+            if(m_oCharacter.iGold >= Constants.iGoldAmountToWin) {
                 Console.WriteLine("You win the game. Wanna play again?");
                 m_bRestart = Util.YesNoPrompt();
 
