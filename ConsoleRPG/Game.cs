@@ -3,16 +3,22 @@
 namespace ConsoleRPG {
     class Game {
 
+        // is the game running
         private bool m_bRunning;
+        // should the game restart
         private bool m_bRestart;
+        // map instance
         private Map m_oMap;
+        // character instance
         private Character m_oCharacter;
 
+        // feedback msg color
         private ConsoleColor m_feedbackMsgForeground = Constants.eDefaultTextColor;
         private ConsoleColor m_feedbackMsgBackground = Constants.eDefaultTextBackgroundColor;
+        // current feedback msg string
         private string m_sFeedbackMsg = "";
-
-        //Ensures feedback messages are default then changes back to previus setings
+        
+        // Outputs a feedback message to the player
         private void PrintFeedbackMsg()
         {
             var prevForeground = Console.ForegroundColor;
@@ -27,6 +33,7 @@ namespace ConsoleRPG {
             Console.BackgroundColor = prevBackground;
         }
 
+        // Starts a game, resetting all of the stats
         public void Start()
         {
             // reset restart variable
@@ -42,10 +49,13 @@ namespace ConsoleRPG {
             Run();
         }
 
+        // runs the actual game loop
         private void Run()
         {
+            // set the feedback msg to the start game message
             m_sFeedbackMsg = MessageManager.instance.GetRandomMsg("start_game_msg");
 
+            // run the game loop
             m_bRunning = true;
             while(m_bRunning) {
                 Console.Clear();
@@ -59,7 +69,7 @@ namespace ConsoleRPG {
                 // 2. display feedback from previous action           
                 PrintFeedbackMsg();
 
-                // 3. handle user input?
+                // 3. handle user input
                 PrintInputOptions();
                 HandleUserInput();
             }
@@ -67,7 +77,7 @@ namespace ConsoleRPG {
             if(m_bRestart)
                 Start();
         }
-        //Allow player tto end game and quit or restart
+        // Stops the game, optionally prompts the player before doing so
         public void Stop(bool bPrompt = false)
         {
             if(bPrompt) {
@@ -119,6 +129,7 @@ namespace ConsoleRPG {
 
         #region user commands
 
+        // prints out all of the different options the player has
         private void PrintInputOptions()
         {
             Console.WriteLine("What would you like to do? \nlook | move | equip | use | status | quit");
@@ -154,12 +165,12 @@ namespace ConsoleRPG {
                     break;
 
                 default:
-                    // DISPLAY ERROR MESSAGE
+                    // return error if command was wrong
                     SetFeedbackMsgError(MessageManager.instance.GetRandomMsg("invalid_look_command"));
                     return;
             }
 
-
+            // retrieve the tile we're looking at
             var tile = GetTileInDir(dir);
 
             if(tile != null)
@@ -201,10 +212,12 @@ namespace ConsoleRPG {
                     return;
             }
 
+            // retrieve tile we're walking on
             var tile = GetTileInDir(dir);
             var dirVec = GetDirectionVector(dir);
 
             if(tile != null) {
+                // handle the actual move of the character
                 m_oCharacter.Move(dirVec);
 
                 m_sFeedbackMsg = tile.GetMoveMessage();
@@ -216,6 +229,7 @@ namespace ConsoleRPG {
                 }
             }
             else
+                // inaccessible area
                 SetFeedbackMsg(MessageManager.instance.GetRandomMsg("move_inacessible_area"));
         }
 
@@ -248,6 +262,7 @@ namespace ConsoleRPG {
             m_sFeedbackMsg = m_oCharacter.Use(iChosenItem);            
         }
 
+        // output the current inventory
         private void ShowInventory()
         {
             SetFeedbackMsg(m_oCharacter.GetItemListString());
@@ -266,6 +281,7 @@ namespace ConsoleRPG {
             WinCheck();
         }
 
+        // output our current HP
         private void Status()
         {
             m_sFeedbackMsg = m_oCharacter.GetStatusString();
@@ -305,6 +321,7 @@ namespace ConsoleRPG {
         }
 
         // directions prompt
+        // deprecated
         private Direction SelectDirection()
         {
             Console.WriteLine(MessageManager.instance.GetRandomMsg("choose_direction_prompt") + "\n");
@@ -326,6 +343,7 @@ namespace ConsoleRPG {
             return m_oMap.GetTileAt(newPosition);
         }
 
+        // get vector for a given direction
         private Vector2i GetDirectionVector(Direction dir)
         {
             switch(dir) {
@@ -338,17 +356,19 @@ namespace ConsoleRPG {
 
         }
 
-
+        // set the current feedback message using the error style
         private void SetFeedbackMsgError(string msg)
         {
             SetFeedbackMsg(msg, Constants.eErrorTextColor, Constants.eErrorTextBackgroundColor);
         }
 
+        // set the current feedback message using the warning style
         private void SetFeedbackMsgWarning(string msg)
         {
             SetFeedbackMsg(msg, Constants.eWarningTextColor, Constants.eWarningTextBackgroundColor);
         }
 
+        // set the feedback message using a custom or default style
         private void SetFeedbackMsg(string msg, ConsoleColor foreground = Constants.eDefaultTextColor, ConsoleColor background = Constants.eDefaultTextBackgroundColor)
         {
             m_sFeedbackMsg = msg;

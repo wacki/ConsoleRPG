@@ -6,29 +6,30 @@ using System.Threading.Tasks;
 
 namespace ConsoleRPG {
     static class Constants {
-        //map size constance
+        // Map size
         public static readonly int iMapSizeX = 23;
         public static readonly int iMapSizeY = 20;
 
-        //player and map original base for colour
+        // Color map and symbols used in the first iteration of the game
         public static readonly ConsoleColor eMapPlayerColor = ConsoleColor.Red;
         public static readonly ConsoleColor eMapBackgroundColor = ConsoleColor.Black;
         public static readonly string eMapTileSymbol = "█";
         public static readonly string eMapPlayerSymbol = "+";
 
-        //player gold required to win and the starting health
+        // Gold required to win the game
         public static readonly int iGoldAmountToWin = 1000;
+        // Starting health of the player
         public static readonly int iPlayerStartHealth = 30;
         
-        //defualt text and background colours
+        // default text foreground and background color
         public const ConsoleColor eDefaultTextColor = ConsoleColor.White;
         public const ConsoleColor eDefaultTextBackgroundColor = ConsoleColor.Black;
         
-        //error text and background colours
+        // error text foreground and background color
         public const ConsoleColor eErrorTextColor = ConsoleColor.Red;
         public const ConsoleColor eErrorTextBackgroundColor = ConsoleColor.DarkRed;
 
-        //warning text and background colours
+        // warning text foreground and background color
         public const ConsoleColor eWarningTextColor = ConsoleColor.Yellow;
         public const ConsoleColor eWarningTextBackgroundColor = ConsoleColor.Black;
 
@@ -38,7 +39,7 @@ namespace ConsoleRPG {
         
     }
 
-    //Enum Direction for player movement
+    // directions enum
     public enum Direction {
         North, East, South, West
     }

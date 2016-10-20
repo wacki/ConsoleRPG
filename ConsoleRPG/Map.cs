@@ -12,7 +12,6 @@ namespace ConsoleRPG {
     /// <summary>
     /// Holds information about a specific map tile
     /// </summary>
-    /// map tile type
     public class MapTile {
         public enum Type {
             Plains,
@@ -29,6 +28,7 @@ namespace ConsoleRPG {
         public Bitmap image { get { return m_bitmap; } }
 
         //colour type for inital map
+        // deprecated
         public ConsoleColor color
         {
             get
@@ -60,7 +60,8 @@ namespace ConsoleRPG {
 
         }
 
-        //Printing of the original map
+        //deprecated
+        // first iteration of the map output
         public void Print()
         {
             Util.ConsoleWriteCol(color, Constants.eMapBackgroundColor, Constants.eMapTileSymbol);
@@ -90,7 +91,7 @@ namespace ConsoleRPG {
             return MessageManager.instance.GetRandomMsg("map_look_" + eventTypeString, areaString);
         }
 
-        //when the player moves looks at the tile and finds if the player is in combat or finds treasure and the map type
+        //returns an appropriate message for the tile we moved on
         public string GetMoveMessage()
         {
             string areaString = "";
@@ -158,12 +159,11 @@ namespace ConsoleRPG {
     /// 
     /// </summary>
     /// 
-    //building of the map
     class Map {
         private MapTile[,] m_rgTiles;
         private int m_iSizeX;
         private int m_iSizeY;
-
+        // constructor generates a new map of given size
         public Map(int iSizeX, int iSizeY)
         {
             m_rgTiles = new MapTile[iSizeY, iSizeX];
@@ -191,7 +191,7 @@ namespace ConsoleRPG {
                         type = MapTile.Type.Wood;
 
 
-
+                    // assign random tile events
                     randInt = rand.Next(0, 1000);
                     MapTileEvent tileEvent = MapTileEvent.Nothing;
 
@@ -208,7 +208,7 @@ namespace ConsoleRPG {
             }
         }
 
-        //get tiles at possition
+        // get tiles at possition
         public MapTile GetTileAt(Vector2i pos)
         {
             return GetTileAt(pos.x, pos.y);
@@ -223,7 +223,8 @@ namespace ConsoleRPG {
             return m_rgTiles[y, x];
         }
 
-        //print out the map
+        // deprecated
+        // display the map
         public void Print(int iPlayerX, int iPlayerY)
         {
             for(int y = m_rgTiles.GetLength(0) - 1; y >= 0; y--) {
@@ -243,14 +244,18 @@ namespace ConsoleRPG {
 
         }
 
-        //Draws the atctual image of the primary map
+        // draws the actual map
         public void Draw(int playerX, int playerY)
         {
+            // get the console window handle
             var windowHandle = Util.GetConsoleHandle();
+            // get a graphics context from the window handle
             using(var graphics = Graphics.FromHwnd(windowHandle))
 
+                // rows
                 for(int y = 0; y < m_rgTiles.GetLength(0); y++) {
                     Console.WriteLine();
+                    // columns
                     for(int x = 0; x < m_rgTiles.GetLength(1); x++) {
                         // print the specific tile
                         var tile = m_rgTiles[y, x];

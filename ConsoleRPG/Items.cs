@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleRPG
 {
+    // Base item class holds most of the important information for items
     class Item
     {
         // Item set names if they are equipable and what bonuses they give

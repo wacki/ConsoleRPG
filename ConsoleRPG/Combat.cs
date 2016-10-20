@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace ConsoleRPG
 {
-
+    /// <summary>
+    /// Static class that handles all of the game's combat systems
+    /// </summary>
     static class CombatManager
     {
-        //adds a random number for use across the program
+        // global random generator for the combat manager
         static Random s_RandomNumber = new Random();
         //When a object (ie Player or Monster) attack another object
         private static bool Attack(Character character, Monster monster)
